@@ -12,18 +12,18 @@
         </p> -->
 
         <p>
-          <label for="name">Name:</label>
-          <input id="name" v-model="name">
+          <label for="name">Product Name:</label>
+          <input id="name" type="text" v-model="name" placeholder="Enter product name">
         </p>
         
         <p>
           <label for="desc">Description:</label>      
-          <textarea id="desc" v-model="desc"></textarea>
+          <textarea id="desc" type="text" v-model="desc" rows="2" placeholder="Enter description"></textarea>
         </p>
 
         <p>
           <label for="price">Price:</label>      
-          <textarea id="price" v-model="price"></textarea>
+          <input id="price" type="number" v-model="price" placeholder="Enter Price" number> 
         </p>
         
         <p>
@@ -38,31 +38,36 @@
         </p>
 
         <p>
-          <input type="submit" value="Submit">  
+          <input type="submit" v-on:click.prevent="onSubmit" value="Add Product">  
         </p>    
       
     </form>
+    <!-- to add validation -->
     </div>
 
 </template>
 
 <script>
 export default {
-  name: 'productadd',
-  data () {
-    return {
-      name: '',
-      desc:'',
-      price:'',
-      promo: '',
-      //used for cart?
-      //counter: 0
+//   name: 'productadd',
+//   data () {
+//     return {
+//       name: '',
+//       desc:'',
+//       price:'',
+//       promo: '',
+//       //createdD:'',
+//       //modD:'',
+//     }
+//   }
+// }
+  props: ['product'],
+  methods: {
+    onSubmit (){
+      this.$emit('submit', this.product)
     }
   }
 }
-  // props: {
-  //   msg: String
-  // }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

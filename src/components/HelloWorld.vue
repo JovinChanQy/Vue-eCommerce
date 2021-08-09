@@ -2,33 +2,39 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <hr />
-    <div>
-      <ul>
-        <li v-for="product in products" v-bind:key="product">
-           <div>
-      <button class="btn btn-primary" v-on:click="counter++">You've clicked this button {{counter}} times!</button>
-    </div>
-          {{product.prodimage}} {{product.prodname}} {{product.desc}} {{product.price}}
-        </li>
-        <br>
-        <li>
-          <!-- <img v-bind: src="require('../assets/' + img)" /> -->
-        </li>
-      </ul>
-
-      
-    </div>
-    <hr/>
 
     <div>
-      <input type="text" v-model="input_val">
+      Search:<input type="text" v-model="input_val">
     </div>
     <div>
       Input Value: <span v-text="input_val"></span>
     </div>
-    <hr />
+    <hr>
+
+    <table class="table table-hover product-table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="product in products" v-bind:key="product">
+        <td>{{product.prodimage}}</td>
+        <td>{{product.prodname}}</td>
+        <td>{{product.desc}}</td>
+        <td>{{product.price}}</td>
+        <td><button class="btn btn-secondary" v-on:click="counter++">Add to cart ({{counter}})</button></td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+    <hr>
     <div>
-      <button class="btn btn-primary" v-on:click="counter++">You've {{counter}} items in your cart!</button>
+      <button class="btn btn-primary" v-on:click="viewCart++">You've ({{tCounter}}) items in your cart!</button>
     </div>
 
 
@@ -41,28 +47,6 @@
   <div class="column">
     <div class>
   </div>
-  <div class="column" style="background-color:#bbb;">
-    <table style="width:100%">
-      <tr>
-        <!-- <img src="./assets/bbt.jpeg"> -->
-      </tr>
-  <tr>
-    <th>Name:</th>
-    <td>Bubble tea</td>
-  </tr>
-  <tr>
-    <th rowspan="2">Description:</th>
-    <td>Earl Grey</td>
-  </tr>
-  <tr>
-    <td>bbt</td>
-  </tr>
-  <tr>
-    <th>Price:</th>
-    <td>2.8</td>
-  </tr>
-</table>
-</div>
 </div>
 
   </div>
@@ -70,22 +54,31 @@
 </template>
 
 <script>
+//import image from "./assets/bbt.jpeg"
+
 export default {
   name: 'hello',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       products: [
-        {prodimage: 'bbt.jpeg', prodname: 'Bubble Tea', desc: 'drink', price: '$3.9'},
+        {prodimage: ''
+        // require(`../assets/${bbt.jpeg}`) / v-bind item index?
+        , prodname: 'Bubble Tea', desc: 'drink', price: '$3.9'},
         {prodname: 'Chicken Pie', desc: 'hot steaming pie', price: '$2.5'},
         {prodname: 'Fruit Tea', desc: 'Fresh fruit tea', price: '$3.5'}
       ],
       // img: "bbt.jpeg",
       input_val: '',
       //used for cart?
-      counter: 0
+      counter: 0,
+      //tCounter: 0 + counter +counter
     }
   }
+  // , methods: {
+  //   counter:0,
+  //   tCounter: counter + counter
+  // }
 }
   // props: {
   //   msg: String,
