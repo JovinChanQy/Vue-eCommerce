@@ -10,7 +10,7 @@
 <script>
 
 import ProductList from './ProductList'
-import ProductAdd from './ProductAdd'
+import AdminAdd from './AdminAdd'
 
 const initialData = () => {
   return {
