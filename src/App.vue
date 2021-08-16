@@ -21,7 +21,7 @@
             >Cart</router-link
           >
           <br />
-          <router-link to="AdminAdd" class="nav-item r-item"
+          <router-link to="Admin Products" class="nav-item r-item"
             >Admin</router-link
           >
 

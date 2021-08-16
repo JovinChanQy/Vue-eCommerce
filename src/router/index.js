@@ -17,8 +17,8 @@ const routes = [
   // { path: '/hello/:name', component: Hello, props: true }, 
   // Pass route.params to props
   {
-    path: '/adminAdd',
-    component: AdminAdd
+    path: '/adminProducts',
+    component: AdminProducts
   },
   {
     name: 'Cart',

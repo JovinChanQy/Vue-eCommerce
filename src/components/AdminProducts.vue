@@ -24,6 +24,8 @@ const initialData = () => {
 }
 
 export default {
+  name: "AdminProducts",
+
   components: {
     ProductList,
     SaveProductForm

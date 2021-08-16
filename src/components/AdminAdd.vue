@@ -3,7 +3,7 @@
     <hr />
     <h1>Add Products</h1>
     <div class="content">
-      <form class="addprod-form" @submit.prevent="onSubmit">
+      <form class="addprod-form" method="POST" @submit.prevent="onSubmit">
         <table>
           <!-- <tr>
             <td>Product Image:</td>
