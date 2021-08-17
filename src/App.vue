@@ -21,9 +21,14 @@
             >Cart</router-link
           >
           <br />
+          <router-link to="adminadd" class="nav-item r-item"
+            >Admin Add</router-link
+          >
+          <br/>
           <router-link to="Admin Products" class="nav-item r-item"
             >Admin</router-link
           >
+          
 
           <!-- <router-link to="/" class="nav-item r-item">View Existing Products</router-link> -->
 

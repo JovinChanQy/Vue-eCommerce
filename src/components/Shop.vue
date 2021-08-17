@@ -36,6 +36,9 @@
       <button @click="$router.push('cart')">You've ({{ cartItems.length }}) items in your cart!</button> 
     </div>
 
+    <!-- not passing data to cart component
+      <button @click="$router.push({name:'Cart', params: cartLineItems},)">You've ({{ cartItems.length }}) items in your cart!</button> -->
+
     <div class="row">
       <div class="column">
         <div class></div>

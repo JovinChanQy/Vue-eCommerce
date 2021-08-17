@@ -2,7 +2,11 @@
   <div class="hello">
     <hr />
 
-    <div class="prod-details" v-for="(item, index) in cartItems" :key="item.product.id">
+    <div
+      class="prod-details"
+      v-for="(item, index) in cartItems"
+      :key="item.product.id"
+    >
       <img src="../assets/bbt.jpeg" alt="bubble tea" />
       <b>{{ item.product.prodname }}</b>
       <br />
@@ -10,7 +14,8 @@
       <br />
       {{ item.product.price }}
       <br />
-      {{ item.quantity }} <button type="button" @click="deductOne(index, item.id)">Remove 1</button>
+      {{ item.quantity }}
+      <button type="button" @click="deductOne(index, item.id)">Remove 1</button>
       <br />
       <div class="promo">*1 for 1 till 17 Aug</div>
 
@@ -81,14 +86,13 @@
 
 <script>
 /*eslint-disable*/
-import { bus } from '@/main';
+import { bus } from "@/main";
 
 export default {
   name: "Cart",
 
   data() {
     return {
-
       products: [
         { id: 1, prodname: "Bubble Tea", desc: "drink", price: "$3.9", qty: 3 },
         {
@@ -121,15 +125,14 @@ export default {
     },
   },
 
-
-watch: {
-  cartItemData(value) {
-    bus.$emit('cartUpdated', value);
-  }
-},
+  watch: {
+    cartItemData(value) {
+      bus.$emit("cartUpdated", value);
+    },
+  },
 
   created() {
-    this.setItemQuantity()
+    this.setItemQuantity();
   },
 
   methods: {
@@ -148,36 +151,40 @@ watch: {
     deductOne(itemIndex, idOfTheItemToBeRemove) {
       this.cartItems[itemIndex].quantity -= 1;
 
-
-      const index = this.cartItemData.findIndex(item => item.id === idOfTheItemToBeRemove);
+      const index = this.cartItemData.findIndex(
+        (item) => item.id === idOfTheItemToBeRemove
+      );
 
       this.cartItemData.splice(index, 1);
     },
 
     setItemQuantity() {
       //let for mutable, const immutable
-        let lineItems = [];
+      let lineItems = [];
 
-        this.cartLineItems.forEach(item => {
+      this.cartLineItems.forEach((item) => {
+        const exist = lineItems.some(
+          (lineItem) => lineItem.product.id === item.id
+        );
 
-          const exist = lineItems.some(lineItem => lineItem.product.id === item.id);
-          
-          if(exist) {
-            const index = lineItems.findIndex(lineItem => lineItem.product.id === item.id);
-            lineItems[index].quantity += 1; 
-            return;
-          }
+        if (exist) {
+          const index = lineItems.findIndex(
+            (lineItem) => lineItem.product.id === item.id
+          );
+          lineItems[index].quantity += 1;
+          return;
+        }
 
-          lineItems.push({
-            product: item,
-            quantity: 1,
-          })
-        })
+        lineItems.push({
+          product: item,
+          quantity: 1,
+        });
+      });
 
-        this.cartItems = lineItems;
+      this.cartItems = lineItems;
 
-        // emit to App.vue
-        // bus.$emit('cartUpdated', lineItems);
+      // emit to App.vue
+      // bus.$emit('cartUpdated', lineItems);
     },
   },
 };

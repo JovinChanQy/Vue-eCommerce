@@ -4,6 +4,7 @@ const port = 3001;
 const client = require('mongodb').MongoClient;
 const uri =
     "mongodb+srv://admin:123@cluster0.lyerf.mongodb.net/sample_mflix?retryWrites=true&w=majority";
+// const Post = require('../models/Post');
 
 app.listen(port, function () {
     console.log('server started at ', port);
@@ -34,13 +35,13 @@ async function connectDb() {
 
 //function to get data
 //frontend use 3000, axios:get /product
-//do axios in one of the page ^, define what to be received 
+//axios in Adminadd component ^, define what to be received 
 async function listDatabases(client) {
 
     console.log('list');
     const db = client.db('Products');
     
-    db.collection('Products').find().toArray(function(err, result) {
+    db.collection('details').find().toArray(function(err, result) {
         if(err) throw err;
 
         console.log(result);
