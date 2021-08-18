@@ -3,33 +3,67 @@ const app = express();
 const port = 3001;
 const client = require('mongodb').MongoClient;
 const uri =
-    "mongodb+srv://admin:123@cluster0.lyerf.mongodb.net/sample_mflix?retryWrites=true&w=majority";
+"mongodb+srv://admin:123@cluster0.lyerf.mongodb.net/sample_mflix?retryWrites=true&w=majority";
 // const Post = require('../models/Post');
+const mongoose = require('mongoose');
+mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology:true});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console,'MongoDB connection error:'));
+db.once('open', function() {
+    console.log('connected')
+});
+
+
+const Schema = mongoose.Schema;
+
+
+const ProductSchema = new Schema({
+    name: String,
+    description: String,
+    price: Number,
+});
+
+const Product = mongoose.model('Product', ProductSchema);
+
+Product.find()
 
 app.listen(port, function () {
     console.log('server started at ', port);
 });
 
-app.get('/products', async function (req, res) {
-    // res.send("it works");
-
-    const connected = await connectDb();
-
-    const products = await listDatabases(connected);
-
-    res.json(products);
-});
+app.get('/', async (req, res) => res.send('Hello world 1234'))
 
 
-async function connectDb() {
-    try {
-        return await client.connect(uri, { useUnifiedTopology: true });
-    } catch (e) {
-        console.error(e)
-    } finally {
-        // client.close();
-    }
-}
+
+// app.get('/products', async function (req, res) {
+//     // res.send("it works");
+
+//     const connected = await connectDb();
+
+//     const products = await listDatabases(connected);
+
+//     res.json(products);
+// });
+
+
+// async function connectDb() {
+//     try {
+//         return await client.connect(uri, { useUnifiedTopology: true });
+//     } catch (e) {
+//         console.error(e)
+//     } finally {
+//         // client.close();
+//     }
+// }
+
+// app.get('/adminadd', async function (req, res) {
+//     let posts = Post.find({}, function(err, posts){
+//         if(err){
+//             console.log(err);
+//         }
+//         else res.json(products);
+// });
 // localhost:8080
 // shopping.com -> axios get -> products through shoppingdb.com // localhost:3000
 

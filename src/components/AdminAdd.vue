@@ -37,7 +37,7 @@
             <td>Price:</td>
             <td>
               <input
-                type="number"
+                type="number" step="0.01"
                 id="price"
                 v-model="Product.price"
                 placeholder="Enter Price"
@@ -66,8 +66,34 @@
       </form>
     </div>
 <hr>
-    {{newProduct}}
+    <!-- {{newProduct}} -->
+
+    <table class="table table-hover product-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Promotion</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- <tr v-for="product in Product" :key="product.id"> 
+          <td> {{product.name}} </td>
+          <td> {{product.desc}} </td>
+          <td> {{product.price}} </td>
+          <td> {{product.selectedpromo}} </td>
+          -->
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+      </tbody>
+    </table>
   </div>
+
+
 </template>
 
 <script>
