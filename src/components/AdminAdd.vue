@@ -37,7 +37,8 @@
             <td>Price:</td>
             <td>
               <input
-                type="number" step="0.01"
+                type="number"
+                step="0.01"
                 id="price"
                 v-model="Product.price"
                 placeholder="Enter Price"
@@ -56,19 +57,15 @@
               </select>
             </td>
           </tr>
-          <input
-            type="submit"
-            @click="submitForm"
-            value="Add Product"
-          />
+          <input type="submit" @click="submitForm" value="Add Product" />
           <!-- v-on:click.prevent="onSubmit" -->
         </table>
       </form>
     </div>
-<hr>
+    <hr />
     <!-- {{newProduct}} -->
 
-    <table class="table table-hover product-table">
+    <table class="table">
       <thead>
         <tr>
           <th>Name</th>
@@ -79,26 +76,21 @@
       </thead>
 
       <tbody>
-        <!-- <tr v-for="product in Product" :key="product.id"> 
-          <td> {{product.name}} </td>
-          <td> {{product.desc}} </td>
-          <td> {{product.price}} </td>
-          <td> {{product.selectedpromo}} </td>
-          -->
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
+        <tr v-for="product in products" :key="product.name">
+          <td>{{ product.name }}</td>
+          <td>{{ product.desc }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.selectedpromo }}</td>
+        </tr>
       </tbody>
     </table>
   </div>
-
-
 </template>
 
 <script>
 /* eslint-disable */
 import axios from "axios";
+axios.defaults.baseURL = "http://";
 
 export default {
   name: "AdminAdd",
@@ -106,8 +98,12 @@ export default {
   data() {
     return {
       Product: { name: "", desc: "", price: "", selectedpromo: "" },
-      
+      products: [],
     };
+  },
+
+  mounted() {
+    this.getProducts();
   },
 
   props: ["product"],
@@ -130,13 +126,24 @@ export default {
         selectedpromo: this.Product.selectedpromo,
       };
       console.log(newProduct);
-      axios.post('http://localhost:8080/adminadd')
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      axios
+        .post("http://localhost:8080/adminadd")
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getProducts() {
+      axios({
+        method: "get",
+        url: "/products",
+        baseURL: "http://localhost:3001",
+      }).then((response) => {
+        this.products = response.data;
+      });
     },
   },
 };

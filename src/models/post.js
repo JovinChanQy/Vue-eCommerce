@@ -1,6 +1,5 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// const client = require('mongodb').MongoClient;
 
 let postSchema = mongoose.Schema({
     name: {
