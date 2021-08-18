@@ -8,24 +8,33 @@ const dbName = 'Products';
 const port = 3001;
 const client = require('mongodb').MongoClient;
 const uri =
-`mongodb+srv://${username}:${password}@${cluster}.lyerf.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+    `mongodb+srv://${username}:${password}@${cluster}.lyerf.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 const mongoose = require('mongoose');
 
 // Middleware
+app.use(express.json());
+app.use(express.urlencoded());
+
 app.use(cors({
     origin: '*',
-    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
 
-mongoose.connect(uri, {
-    useNewUrlParser: true, 
-    useFindAndModify: false,
-    useUnifiedTopology:true
-});
+mongoose
+    .connect(uri, {
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true
+    })
+    .then(() => {
+        app.listen(port, function () {
+            console.log('Server started at ', port);
+        });
+    });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console,'MongoDB connection error:'));
-db.once('open', function() {
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function () {
     console.log('connected')
 });
 
@@ -40,10 +49,8 @@ const ProductSchema = new Schema({
 
 const Product = mongoose.model('Product', ProductSchema, 'details');
 
-app.get('/products', async function(req, res) {
-    const products = await Product.find({}, function(err, collection) {
-        // console.log(collection);
-    }).limit(5);
+app.get('/products', async function (req, res) {
+    const products = await Product.find({});
 
     try {
         res.json(products);
@@ -52,17 +59,37 @@ app.get('/products', async function(req, res) {
     }
 });
 
+app.post('/product/add', async function (request, response) {
 
-app.listen(port, function () {
-    console.log('server started at ', port);
+    const newProduct = new Product({
+        name: request.body.name,
+        description: request.body.desc,
+        price: request.body.price,
+        promo: request.body.promo,
+    })
+
+    try {
+        const result = await newProduct.save();
+
+        response.json(result);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
-app.get('/', async (req, res, next) => {
+
+app.get('/', async (req, res) => {
     res.send('CORS enabled!')
 })
 
 
 //TODO server side POST 
+// client.connect(error => {
+
+//     getData(newProduct).then(data => {
+//         db.collection('details').insertOne(data)
+//     })
+// })
 
 
 
@@ -76,5 +103,3 @@ app.get('/', async (req, res, next) => {
 
 
 
-
- 
