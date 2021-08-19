@@ -41,7 +41,7 @@ db.once('open', function () {
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-    name: String,
+    name: String, 
     desc: String,
     price: Number,
     promo: String,

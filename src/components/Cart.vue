@@ -12,14 +12,15 @@
       <br />
       Freshly made bubble tea
       <br />
-      {{ item.product.price }}
+      Price: ${{ item.product.price }}
       <br />
-      {{ item.quantity }}
-      <button type="button" @click="deductOne(index, item.id)">Remove 1</button>
+      Quantity: {{ item.quantity }}
+      <!-- <br /> -->
+      <button class="buttonRemove" @click="deductOne(index, item.id)">Remove 1</button>
       <br />
       <div class="promo">*1 for 1 till 17 Aug</div>
 
-      <div class="promo-price">$9.80</div>
+      <!-- <div class="promo-price">$9.80</div> -->
       <div class="price">Price: $11.70</div>
     </div>
 
@@ -139,7 +140,7 @@ export default {
     grandT(product) {
       //calc total for every id qty>1,
       totalP = this.product * this.product.price;
-      grandT = this.totalP + this.totalP;
+      grandTotal = this.totalP + this.totalP;
     },
     warn: function (message, event) {
       // now we have access to the native event
@@ -226,7 +227,7 @@ img {
 .price {
   float: right;
   clear: left;
-  text-decoration: line-through;
+  /* text-decoration: line-through; */
 }
 .promo {
   clear: left;
@@ -237,7 +238,7 @@ img {
   font-size: 1.2em;
   /* text-decoration: line-through; */
   color: red;
-  clear: left;
+  clear: right;
 }
 button {
   border: 2px solid thistle;
@@ -250,5 +251,8 @@ button:hover {
   color: black;
   background-color: thistle;
   padding: 20px;
+}
+.buttonRemove {
+  float: right;
 }
 </style>

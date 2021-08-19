@@ -1,26 +1,35 @@
 <template>
   <div class="hello">
-    <hr />
-
-    <table class="table table-hover product-table">
-      <thead>
+    <h1>Products</h1>
+      
+    <table class="center">
+      <!-- <thead>
         <tr>
-          <th>Image</th>
+          <th>Images</th>
           <th>Name</th>
           <th>Description</th>
           <th>Price</th>
         </tr>
-      </thead>
+      </thead> -->
       <tbody>
+        <!-- <img src="@//assets/bbt.jpeg" alt="bubble tea" />" -->
         <tr v-for="product in products" :key="product.id">
           <!-- <td>{{ lineItems.prodimage }}</td> -->
-          <td>{{ product.prodname }}</td>
+          <td>
+            <img
+              v-for="image in images"
+              :key="image"
+              :src="item.url"
+              :alt="items.alt"
+            />
+          </td>
+          <b><td>{{ product.prodname }}</td></b>
           <td>{{ product.desc }}</td>
-          <td>{{ product.price }}</td>
+          <td>${{ product.price }}</td>
           <!-- recog btn by product id -->
           <td>
-            <button class="btn btn-secondary" @click="addToCart(product)">
-              Add to cart ({{ counter }})
+            <button class="btnAdd" @click="addToCart(product)">
+              Add to cart
             </button>
           </td>
         </tr>
@@ -29,11 +38,9 @@
 
     <hr />
     <div>
-      <!-- <button class="btn btn-primary" v-on:click="viewCart()">
-        You've ({{ cartItems.length }}) items in your cart!
-      </button> -->
-      <!-- alternatively -->
-      <button @click="$router.push('cart')">You've ({{ cartItems.length }}) items in your cart!</button> 
+      <label>You've {{ cartItems.length }} items in your cart!</label>
+
+      <!-- <button @click="$router.push('cart')">You've ({{ cartItems.length }}) items in your cart!</button>  -->
     </div>
 
     <!-- not passing data to cart component
@@ -49,13 +56,18 @@
 
 <script>
 /*eslint-disable*/
-import { bus } from '@/main';
+import { bus } from "@/main";
 
 export default {
   name: "Shop",
 
   data: function () {
     return {
+      items: [
+        { url: "../assets/bbt.jpeg", alt: "Bubble Tea" },
+        { url: "../assets/cpie.jpeg", alt: "Chicken Pie" },
+        { url: "../assets/fruittea.jpeg", alt: "Fruit Tea" },
+      ],
       products: [
         {
           id: 1,
@@ -69,11 +81,11 @@ export default {
           desc: "hot steaming pie",
           price: 2.5,
         },
-        { 
-          id: 3, 
-          prodname: "Fruit Tea", 
-          desc: "Fresh fruit tea", 
-          price: 3.5
+        {
+          id: 3,
+          prodname: "Fruit Tea",
+          desc: "Fresh fruit tea",
+          price: 3.5,
         },
       ],
       // img: "bbt.jpeg",
@@ -81,7 +93,6 @@ export default {
       counter: 0,
       cartItems: this.cartLineItems,
       totalCost: 0,
-      
     };
   },
 
@@ -89,7 +100,7 @@ export default {
     cartLineItems: {
       type: Array,
       default: () => [],
-    }
+    },
   },
 
   computed: {
@@ -97,10 +108,10 @@ export default {
     //   return this.cartItems.reduce((total, item) => total += item.price, 0);
     // },
     updateCartQty() {
-      if (this.product >1) {
-        this.qty += product.qty
+      if (this.product > 1) {
+        this.qty += product.qty;
       }
-    }
+    },
   },
 
   watch: {
@@ -109,7 +120,6 @@ export default {
         (total, item) => (total += item.price),
         0
       );
-
     },
   },
 
@@ -117,29 +127,29 @@ export default {
     addToCart(product) {
       // Add item in to cartItems
       this.cartItems.push(product);
-      bus.$emit('cartUpdated',this.cartItems);
+      bus.$emit("cartUpdated", this.cartItems);
     },
     totalSum() {
       this.counter++;
       this.cartItems = this.counter;
     },
     viewCart() {
-          <router-link to="/cart" tag="button">View Cart</router-link>
+      <router-link to="/cart" tag="button">
+        View Cart
+      </router-link>;
     },
-    
 
     // check if id alr exists
-    isExist(itemId,items) {
-
-      return items.some(item => item.id === itemId);
+    isExist(itemId, items) {
+      return items.some((item) => item.id === itemId);
       // for(var i=0; i < this.product.length; i++){
       //   if( this.product[i].product.id == this.product.id){
       //     return true
       //   }
       // }
       // return false
-  }
-},
+    },
+  },
   // props: {
   //     : {
   //       type: Number,
@@ -164,5 +174,22 @@ li {
 }
 a {
   color: #42b983;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.center td{
+  padding: 10px;
+}
+.btnAdd {
+margin: auto;  
+border: thistle;
+  border-radius: 8px;
+  padding: 10px;
+}
+.btnAdd:hover {
+  color: black;
+  background-color: thistle;
 }
 </style>

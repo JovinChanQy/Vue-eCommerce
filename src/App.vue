@@ -2,27 +2,24 @@
   <div id="app">
     <div class="nav">
       <div class="container">
-        <div class="nav-left">
-          <a class="nav-item">Comp Brand</a>
-        </div>
-
         <!-- <span class="nav-toggle">
         <span></span>
         <span></span>
         <span></span>
         </span> -->
 
-        <div class="nav-right nav-menu">
-          <router-link :to="{ name: 'Shop', params: { cartLineItems } }" class="nav-item r-item"
+          <router-link
+            :to="{ name: 'Shop', params: { cartLineItems } }"
+            class="nav-item"
             >Shop</router-link
           >
-          <router-link :to="{ name: 'Cart', params: { cartLineItems } }"
+          <router-link
+            :to="{ name: 'Cart', params: { cartLineItems } }"
+            class="nav-item"
             >Cart</router-link
           >
-          <router-link to="admin" class="nav-item r-item"
-            >Admin</router-link
-          >
-          
+          <!-- <img src="./assets/carticon.jpeg"/> -->
+          <router-link to="admin" class="nav-item">Admin</router-link>
 
           <!-- <router-link to="/" class="nav-item r-item">View Existing Products</router-link> -->
 
@@ -35,7 +32,6 @@
               </a>
               </p>
           </div> -->
-        </div>
       </div>
     </div>
 
@@ -57,25 +53,24 @@
 
 <script>
 /* eslint-disable */
-import { bus } from './main';
+import { bus } from "./main";
 
 export default {
   name: "App",
 
   data() {
     return {
-    cartLineItems: [],
+      cartLineItems: [],
     };
   },
 
   created() {
-  
-  console.log(bus);
-   bus.$on('cartUpdated', (data) => {
-     console.log(data);
+    console.log(bus);
+    bus.$on("cartUpdated", (data) => {
+      console.log(data);
 
-     this.cartLineItems = data;
-   })
+      this.cartLineItems = data;
+    });
   },
 };
 </script>
@@ -110,6 +105,12 @@ li a:hover:not(.active) {
 .active {
   background-color: #04aa6d;
 }
+img {
+  float: left;
+  padding-right: 10px;
+  height: 110px;
+  width: 110px;
+}
 </style>
 
 <style>
@@ -123,17 +124,20 @@ li a:hover:not(.active) {
 }
 
 .nav {
-  background-color: #145DA0;
+  background-color: #145da0;
   list-style-type: none;
-  text-align: center; 
-  padding: 0;
+  text-align: center;
+  padding: 10px;
   margin: 0;
 }
-.nav-right {
-gap: 1em;
+.nav a:hover {
+  background-color: #ddd;
+  color: black;
 }
-.nav-item r-item {
-gap: 1em;
-padding-right: 10px;
+.nav-item {
+  color:white;
+  text-decoration: none;
+  gap: 1em;
+  padding: 10px;
 }
 </style>
