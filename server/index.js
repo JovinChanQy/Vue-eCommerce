@@ -42,7 +42,7 @@ const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
     name: String,
-    description: String,
+    desc: String,
     price: Number,
     promo: String,
 });
@@ -63,7 +63,7 @@ app.post('/product/add', async function (request, response) {
 
     const newProduct = new Product({
         name: request.body.name,
-        description: request.body.desc,
+        desc: request.body.desc,
         price: request.body.price,
         promo: request.body.promo,
     })

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="nav has-shadow">
+    <div class="nav">
       <div class="container">
         <div class="nav-left">
           <a class="nav-item">Comp Brand</a>
@@ -16,11 +16,9 @@
           <router-link :to="{ name: 'Shop', params: { cartLineItems } }" class="nav-item r-item"
             >Shop</router-link
           >
-          <br />
           <router-link :to="{ name: 'Cart', params: { cartLineItems } }"
             >Cart</router-link
           >
-          <br />
           <router-link to="admin" class="nav-item r-item"
             >Admin</router-link
           >
@@ -122,5 +120,20 @@ li a:hover:not(.active) {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.nav {
+  background-color: #145DA0;
+  list-style-type: none;
+  text-align: center; 
+  padding: 0;
+  margin: 0;
+}
+.nav-right {
+gap: 1em;
+}
+.nav-item r-item {
+gap: 1em;
+padding-right: 10px;
 }
 </style>
