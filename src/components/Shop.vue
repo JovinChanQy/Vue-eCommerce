@@ -1,40 +1,42 @@
 <template>
   <div class="hello">
     <h1>Products</h1>
-      
-    <table class="center">
-      <!-- <thead>
-        <tr>
-          <th>Images</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Price</th>
-        </tr>
-      </thead> -->
+
+    <section class="product-list">
+      <div v-for="product in products" :key="product.id" class="product-item">
+        <div class="item-name-desc">
+          <h3>{{ product.prodname }}</h3>
+          <p style="margin-bottom: 0; :font-size: 0.9em;">{{ product.desc }}</p>
+        </div>
+        <div class="item-price">
+          {{ product.price | currency }}
+        </div>
+        <div class="item-action">
+          <button class="btnAdd" @click="addToCart(product)">
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- <table class="center">
       <tbody>
-        <!-- <img src="@//assets/bbt.jpeg" alt="bubble tea" />" -->
-        <tr v-for="product in products" :key="product.id">
-          <!-- <td>{{ lineItems.prodimage }}</td> -->
-          <td>
-            <img
-              v-for="image in images"
-              :key="image"
-              :src="item.url"
-              :alt="items.alt"
-            />
-          </td>
-          <b><td>{{ product.prodname }}</td></b>
+        <tr v-for="product in products" :key="product.id"> -->
+          <!-- <td>{{product.image}}</td> -->
+          <!-- <b
+            ><td>{{ product.prodname }}</td></b
+          >
           <td>{{ product.desc }}</td>
-          <td>${{ product.price }}</td>
+          <td>${{ product.price }}</td> -->
           <!-- recog btn by product id -->
-          <td>
+          <!-- <td>
             <button class="btnAdd" @click="addToCart(product)">
               Add to cart
             </button>
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
 
     <hr />
     <div>
@@ -88,7 +90,6 @@ export default {
           price: 3.5,
         },
       ],
-      // img: "bbt.jpeg",
       input_val: "",
       counter: 0,
       cartItems: this.cartLineItems,
@@ -100,6 +101,15 @@ export default {
     cartLineItems: {
       type: Array,
       default: () => [],
+    },
+  },
+
+  filters: {
+    currency: (value) => {
+      return new Intl.NumberFormat('en-SG', {
+        style: 'currency',
+        currency: 'SGD'
+      }).format(value);
     },
   },
 
@@ -150,20 +160,51 @@ export default {
       // return false
     },
   },
-  // props: {
-  //     : {
-  //       type: Number,
-  //       default: 1,
-  //     }
-  //   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.product-list {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
+
+
+.product-item {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  padding: 1rem;
+  background-color: #fefefe;
+  border: 1px solid #aaa;
+  margin-bottom: 2rem;
+  border-radius: 0.25rem;
+}
+
+.item-name-desc {
+  flex: 0 0 50%;
+  text-align: left;
+  /* width: 50%; */
+}
+
+.item-name-desc h3 {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+.item-price {
+  flex: 0 0 25%;
+  font-size: 2rem;
+  font-weight:bold
+}
+
+.item-action {
+  margin-left: auto;
+  /* width: 25%; */
+}
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -176,15 +217,16 @@ a {
   color: #42b983;
 }
 .center {
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
-.center td{
+.center td {
   padding: 10px;
 }
 .btnAdd {
-margin: auto;  
-border: thistle;
+  margin: auto;
+  border: thistle;
   border-radius: 8px;
   padding: 10px;
 }

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <font-awesome-icon icon="user-secret" />
     <div class="nav">
       <div class="container">
         <!-- <span class="nav-toggle">
@@ -114,6 +115,20 @@ img {
 </style>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 1rem;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

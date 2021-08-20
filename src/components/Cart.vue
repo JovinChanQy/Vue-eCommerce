@@ -1,27 +1,39 @@
 <template>
   <div class="hello">
-    <hr />
 
-    <div
-      class="prod-details"
-      v-for="(item, index) in cartItems"
-      :key="item.product.id"
-    >
-      <img src="../assets/bbt.jpeg" alt="bubble tea" />
-      <b>{{ item.product.prodname }}</b>
-      <br />
-      Freshly made bubble tea
-      <br />
-      Price: ${{ item.product.price }}
-      <br />
-      Quantity: {{ item.quantity }}
-      <!-- <br /> -->
-      <button class="buttonRemove" @click="deductOne(index, item.id)">Remove 1</button>
-      <br />
-      <div class="promo">*1 for 1 till 17 Aug</div>
+    <div class="prod-details" v-for="item in cartItems" :key="item.product.id">
 
-      <!-- <div class="promo-price">$9.80</div> -->
-      <div class="price">Price: $11.70</div>
+      <div class="product-content">
+        <div style="width: 100%">
+          <div style="display: flex">
+            <img src="../assets/bbt.jpeg" alt="bubble tea" />
+
+            <div style="width: 100%; padding-left: 1rem;">
+              <h4 style="margin: 0;">{{ item.product.prodname }}</h4>
+              <p>Freshly made bubble tea</p>
+              <p style="">
+                Price: ${{ item.product.price }}
+              </p>
+              <p>
+                Quantity:
+                <button type="button" @click="deductOne()" class="btn-add-remove">
+                 <span class="btn-content">-</span>
+                </button>
+                {{ item.quantity }}
+                <button type="button" class="btn-add-remove">
+                  <span class="btn-content">+</span>
+                </button>
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem;">
+          <div class="promo">*1 for 1 till 17 Aug</div>
+          <div class="price">Price: $11.70</div>
+        </div>
+      </div>
     </div>
 
     <!-- <div class="prod-details">
@@ -79,7 +91,7 @@
 
     <h2>Grand Total: $ {{ grandTotal }}</h2>
     <hr />
-    <button v-on:click="warn('Unable to make payment.', $event)">
+    <button v-on:click="warn('Unable to make payment.', $event)" class="btn">
       Make Payment
     </button>
   </div>
@@ -158,6 +170,15 @@ export default {
 
       this.cartItemData.splice(index, 1);
     },
+    addOne(itemIndex, idOfTheItemToBeAdd) {
+      this.cartItems[itemIndex].quantity += 1;
+
+      const index = this.cartItemData.findIndex(
+        (item) => item.id === idOfTheItemToBeAdd
+      );
+
+      this.cartItemData.splice(index, 1);
+    },
 
     setItemQuantity() {
       //let for mutable, const immutable
@@ -193,6 +214,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+p {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+.btn-add-remove {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.btn-content {
+  display: grid;
+  place-items: center;
+}
+
 h3 {
   margin: 40px 0 0;
 }
@@ -219,11 +260,17 @@ img {
 }
 .prod-details {
   text-align: left;
-  padding: 10px;
-  display: table;
-  clear: both;
-  width: 95%;
+  padding: 1rem;
 }
+
+.product-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+
+}
+
 .price {
   float: right;
   clear: left;
@@ -240,14 +287,14 @@ img {
   color: red;
   clear: right;
 }
-button {
+.btn {
   border: 2px solid thistle;
   height: 50px;
   border: none;
   border-radius: 8px;
   padding: 20px;
 }
-button:hover {
+.btn:hover {
   color: black;
   background-color: thistle;
   padding: 20px;

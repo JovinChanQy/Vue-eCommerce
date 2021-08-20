@@ -41,6 +41,7 @@ db.once('open', function () {
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
+    // image: String,
     name: String, 
     desc: String,
     price: Number,
@@ -59,9 +60,11 @@ app.get('/products', async function (req, res) {
     }
 });
 
+//TODO server side POST 
 app.post('/product/add', async function (request, response) {
 
     const newProduct = new Product({
+        // image: request.body.image,
         name: request.body.name,
         desc: request.body.desc,
         price: request.body.price,
@@ -83,7 +86,6 @@ app.get('/', async (req, res) => {
 })
 
 
-//TODO server side POST 
 // client.connect(error => {
 
 //     getData(newProduct).then(data => {
