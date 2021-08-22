@@ -6,8 +6,8 @@
       <div class="product-content">
         <div style="width: 100%">
           <div style="display: flex">
-            <img src="../assets/bbt.jpeg" alt="bubble tea" />
-
+            <img src="@/assets/bbt.jpeg" alt="bubble tea" />
+              {{item.product.image}}
             <div style="width: 100%; padding-left: 1rem;">
               <h4 style="margin: 0;">{{ item.product.prodname }}</h4>
               <p>Freshly made bubble tea</p>

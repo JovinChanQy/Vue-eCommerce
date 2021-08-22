@@ -69,9 +69,9 @@ export default {
   data: function () {
     return {
       items: [
-        { url: "@/assets/bbt.jpeg", alt: "Bubble Tea" },
-        { url: "@/assets/cpie.jpeg", alt: "Chicken Pie" },
-        { url: ".@/assets/fruittea.jpeg", alt: "Fruit Tea" },
+        { id:1,url: "@/assets/cpie.jpeg", alt: "Chicken Pie" },
+        { id:2,url: "@/assets/bbt.jpeg", alt: "Bubble Tea" },
+        { id:3,url: ".@/assets/fruittea.jpeg", alt: "Fruit Tea" },
       ],
       products: [
         {
@@ -83,14 +83,14 @@ export default {
         },
         {
           id: 2,
-          image: require("../assets/bbt.jpeg"),
+          image: require("../assets/cpie.jpeg"),
           prodname: "Chicken Pie",
           desc: "hot steaming pie",
           price: 2.5,
         },
         {
           id: 3,
-          image: require("../assets/bbt.jpeg"),
+          image: require("../assets/fruittea.jpeg"),
           prodname: "Fruit Tea",
           desc: "Fresh fruit tea",
           price: 3.5,
@@ -188,7 +188,10 @@ export default {
   margin-bottom: 2rem;
   border-radius: 0.25rem;
 }
-
+.item-image {
+  /* height: 60px;
+  width: 60px; */
+}
 .item-name-desc {
   flex: 0 0 50%;
   text-align: left;
