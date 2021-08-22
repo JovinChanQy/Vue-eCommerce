@@ -4,6 +4,9 @@
 
     <section class="product-list">
       <div v-for="product in products" :key="product.id" class="product-item">
+        <div class="item-image">
+          {{product.image}}
+          </div>
         <div class="item-name-desc">
           <h3>{{ product.prodname }}</h3>
           <p style="margin-bottom: 0; :font-size: 0.9em;">{{ product.desc }}</p>
@@ -41,7 +44,7 @@
     <hr />
     <div>
       <label>You've {{ cartItems.length }} items in your cart!</label>
-
+        <img src="@/assets/bbt.jpeg" height="50px" width="50px">
       <!-- <button @click="$router.push('cart')">You've ({{ cartItems.length }}) items in your cart!</button>  -->
     </div>
 
@@ -66,25 +69,28 @@ export default {
   data: function () {
     return {
       items: [
-        { url: "../assets/bbt.jpeg", alt: "Bubble Tea" },
-        { url: "../assets/cpie.jpeg", alt: "Chicken Pie" },
-        { url: "../assets/fruittea.jpeg", alt: "Fruit Tea" },
+        { url: "@/assets/bbt.jpeg", alt: "Bubble Tea" },
+        { url: "@/assets/cpie.jpeg", alt: "Chicken Pie" },
+        { url: ".@/assets/fruittea.jpeg", alt: "Fruit Tea" },
       ],
       products: [
         {
           id: 1,
+          image: require("../assets/bbt.jpeg"),
           prodname: "Bubble Tea",
           desc: "drink",
           price: 3.9,
         },
         {
           id: 2,
+          image: require("../assets/bbt.jpeg"),
           prodname: "Chicken Pie",
           desc: "hot steaming pie",
           price: 2.5,
         },
         {
           id: 3,
+          image: require("../assets/bbt.jpeg"),
           prodname: "Fruit Tea",
           desc: "Fresh fruit tea",
           price: 3.5,
