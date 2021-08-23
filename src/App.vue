@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <font-awesome-icon icon="user-secret" />
+    <!-- <font-awesome-icon icon="user-secret" /> -->
     <div class="nav">
       <div class="container">
         <!-- <span class="nav-toggle">

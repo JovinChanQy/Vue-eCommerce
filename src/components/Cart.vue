@@ -1,35 +1,42 @@
 <template>
   <div class="hello">
-
     <div class="prod-details" v-for="item in cartItems" :key="item.product.id">
-
       <div class="product-content">
         <div style="width: 100%">
           <div style="display: flex">
-            <img src="@/assets/bbt.jpeg" alt="bubble tea" />
-              {{item.product.image}}
-            <div style="width: 100%; padding-left: 1rem;">
-              <h4 style="margin: 0;">{{ item.product.prodname }}</h4>
+            <!-- <img src="@/assets/bbt.jpeg" alt="bubble tea" /> -->
+            <img :src="cartItems.image" height="100" width="100" />
+            <!-- {{item.product.image}} -->
+            <div style="width: 100%; padding-left: 1rem">
+              <h4 style="margin: 0">{{ item.product.prodname }}</h4>
               <p>Freshly made bubble tea</p>
-              <p style="">
-                Price: ${{ item.product.price }}
-              </p>
+              <p style="">Price: ${{ item.product.price }}</p>
               <p>
                 Quantity:
-                <button type="button" @click="deductOne()" class="btn-add-remove">
-                 <span class="btn-content">-</span>
+                <button
+                  type="button"
+                  @click="deductOne()"
+                  class="btn-add-remove"
+                >
+                  <span class="btn-content">-</span>
                 </button>
                 {{ item.quantity }}
-                <button type="button" class="btn-add-remove">
+                <button type="button" @click="addOne()" class="btn-add-remove">
                   <span class="btn-content">+</span>
                 </button>
               </p>
             </div>
-
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem;">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+          "
+        >
           <div class="promo">*1 for 1 till 17 Aug</div>
           <div class="price">Price: $11.70</div>
         </div>
@@ -268,7 +275,6 @@ img {
   flex-direction: column;
   width: 100%;
   border-bottom: 1px solid #ccc;
-
 }
 
 .price {

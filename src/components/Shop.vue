@@ -5,11 +5,11 @@
     <section class="product-list">
       <div v-for="product in products" :key="product.id" class="product-item">
         <div class="item-image">
-          {{product.image}}
-          </div>
+          <img :src="product.image" height="100" width="100" />
+        </div>
         <div class="item-name-desc">
           <h3>{{ product.prodname }}</h3>
-          <p style="margin-bottom: 0; :font-size: 0.9em;">{{ product.desc }}</p>
+          <p style="margin-bottom: 0; :font-size: 0.9em">{{ product.desc }}</p>
         </div>
         <div class="item-price">
           {{ product.price | currency }}
@@ -22,30 +22,13 @@
       </div>
     </section>
 
-    <!-- <table class="center">
-      <tbody>
-        <tr v-for="product in products" :key="product.id"> -->
-          <!-- <td>{{product.image}}</td> -->
-          <!-- <b
-            ><td>{{ product.prodname }}</td></b
-          >
-          <td>{{ product.desc }}</td>
-          <td>${{ product.price }}</td> -->
-          <!-- recog btn by product id -->
-          <!-- <td>
-            <button class="btnAdd" @click="addToCart(product)">
-              Add to cart
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-
     <hr />
     <div>
       <label>You've {{ cartItems.length }} items in your cart!</label>
-        <img src="@/assets/bbt.jpeg" height="50px" width="50px">
-      <!-- <button @click="$router.push('cart')">You've ({{ cartItems.length }}) items in your cart!</button>  -->
+    </div>
+
+    <div class="item-price">
+      <label>Total: {{ total | currency }} </label>
     </div>
 
     <!-- not passing data to cart component
@@ -69,9 +52,9 @@ export default {
   data: function () {
     return {
       items: [
-        { id:1,url: "@/assets/cpie.jpeg", alt: "Chicken Pie" },
-        { id:2,url: "@/assets/bbt.jpeg", alt: "Bubble Tea" },
-        { id:3,url: ".@/assets/fruittea.jpeg", alt: "Fruit Tea" },
+        { id: 1, url: "@/assets/cpie.jpeg", alt: "Chicken Pie" },
+        { id: 2, url: "@/assets/bbt.jpeg", alt: "Bubble Tea" },
+        { id: 3, url: ".@/assets/fruittea.jpeg", alt: "Fruit Tea" },
       ],
       products: [
         {
@@ -84,6 +67,7 @@ export default {
         {
           id: 2,
           image: require("../assets/cpie.jpeg"),
+          // image: 'cpie.jpeg',
           prodname: "Chicken Pie",
           desc: "hot steaming pie",
           price: 2.5,
@@ -91,6 +75,7 @@ export default {
         {
           id: 3,
           image: require("../assets/fruittea.jpeg"),
+          // image: 'fruittea.jpeg',
           prodname: "Fruit Tea",
           desc: "Fresh fruit tea",
           price: 3.5,
@@ -99,7 +84,7 @@ export default {
       input_val: "",
       counter: 0,
       cartItems: this.cartLineItems,
-      totalCost: 0,
+      total: 0,
     };
   },
 
@@ -112,17 +97,22 @@ export default {
 
   filters: {
     currency: (value) => {
-      return new Intl.NumberFormat('en-SG', {
-        style: 'currency',
-        currency: 'SGD'
+      return new Intl.NumberFormat("en-SG", {
+        style: "currency",
+        currency: "SGD",
       }).format(value);
     },
   },
 
   computed: {
-    // totalCost() {
-    //   return this.cartItems.reduce((total, item) => total += item.price, 0);
-    // },
+    totalCost() {
+      let total = 0;
+      this.cartItems.forEach((item, i) => {
+        total += item.price * item.qty;
+      });
+      return total;
+      // return this.cartItems.reduce((total, item) => total += item.price, 0);
+    },
     updateCartQty() {
       if (this.product > 1) {
         this.qty += product.qty;
@@ -131,8 +121,20 @@ export default {
   },
 
   watch: {
+    updateCartQty(value) {
+      if (value === 1) {
+        //
+      }
+
+      let index = 0;
+      if (value === 2) {
+        `name-${index + 1}`;
+      }
+
+      //
+    },
     cartItems(newValue) {
-      this.totalCost = this.cartItems.reduce(
+      this.total = this.cartItems.reduce(
         (total, item) => (total += item.price),
         0
       );
@@ -154,7 +156,6 @@ export default {
         View Cart
       </router-link>;
     },
-
     // check if id alr exists
     isExist(itemId, items) {
       return items.some((item) => item.id === itemId);
@@ -176,7 +177,6 @@ export default {
   padding-right: 2rem;
 }
 
-
 .product-item {
   display: flex;
   align-items: center;
@@ -188,9 +188,11 @@ export default {
   margin-bottom: 2rem;
   border-radius: 0.25rem;
 }
-.item-image {
-  /* height: 60px;
-  width: 60px; */
+.item-image img {
+  height: 100px;
+  margin: 0 1rem 1rem 0;
+  width: 100px;
+  /* padding: 1rem; */
 }
 .item-name-desc {
   flex: 0 0 50%;
@@ -206,7 +208,7 @@ export default {
 .item-price {
   flex: 0 0 25%;
   font-size: 2rem;
-  font-weight:bold
+  font-weight: bold;
 }
 
 .item-action {
