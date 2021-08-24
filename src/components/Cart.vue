@@ -4,6 +4,7 @@
       <div class="product-content">
         <div style="width: 100%">
           <div style="display: flex">
+            <button @click.prevent="removeItem(index)">Remove</button>
             <!-- <img src="@/assets/bbt.jpeg" alt="bubble tea" /> -->
             <img :src="item.product.image" height="100" width="100" />
             <div style="width: 100%; padding-left: 1rem">
@@ -59,26 +60,9 @@ export default {
 
   data() {
     return {
-      products: [
-        { id: 1, prodname: "Bubble Tea", desc: "drink", price: "$3.9", qty: 3 },
-        {
-          id: 2,
-          prodname: "Chicken Pie",
-          desc: "hot steaming pie",
-          price: "$2.5",
-          qty: 2,
-        },
-        {
-          id: 3,
-          prodname: "Fruit Tea",
-          desc: "Fresh fruit tea",
-          price: "$3.5",
-          qty: 1,
-        },
-      ],
       qty: 0,
       products: [],
-      grandTotal: 0,
+      // grandTotal: 0,
       cartItemData: this.cartLineItems,
       cartItems: [],
     };
@@ -95,19 +79,27 @@ export default {
     cartItemData(value) {
       bus.$emit("cartUpdated", value);
     },
+    //shop totalprice
   },
 
   created() {
     this.setItemQuantity();
-    this.calcProdPrice();
+    // this.calcProdPrice();
+  },
+
+
+  computed: {
+    // FIXME: calc cart total
+    grandT() {
+      let grandTotal =0;
+      this.items.forEach(item => {
+        grandTotal += (item.price * item.qty);
+      });
+      return total;
+    },
   },
 
   methods: {
-    grandT(product) {
-      //calc total for every id qty>1,
-      totalP = this.product * this.product.price;
-      grandTotal = this.totalP + this.totalP;
-    },
     warn: function (message, event) {
       // now we have access to the native event
       if (event) {
@@ -115,6 +107,7 @@ export default {
       }
       alert(message);
     },
+
     deductOne(itemIndex, idOfTheItemToBeRemove) {
       this.cartItems[itemIndex].quantity -= 1;
 
@@ -124,6 +117,7 @@ export default {
 
       this.cartItemData.splice(index, 1);
     },
+
     addOne(itemIndex, idOfTheItemToBeAdd) {
       this.cartItems[itemIndex].quantity += 1;
 
@@ -131,7 +125,7 @@ export default {
         (item) => item.id === idOfTheItemToBeAdd
       );
 
-      this.cartItemData.splice(index, 1);
+      this.cartItemData.quantity += 1;
     },
 
     setItemQuantity() {
@@ -163,14 +157,25 @@ export default {
       // bus.$emit('cartUpdated', lineItems);
     },
 
-    calcProdPrice(cartItems) {
+    // FIXME: calculate total for ea product in cart
+    calcTotal() {
       let prodPrice = 0;
-      prodPrice = product.price * product.quantity;
-      prodPrice = this.prodPrice;
-      return;
-      // if (exist) {
-      //   prodPrice = product.price * product.quantity
-      //   return;
+      this.cartLineItems.forEach((item) => {
+        const exist = prodPrice.some;
+        if (exist) {
+          prodPrice = product.price * product.quantity;
+        }
+        return;
+      });
+      return items.some((item) => item.id === itemId);
+    },
+
+    
+
+    // FIXME : remove item from cart
+    removeItem(index) {
+      // this.item.product.splice(index,1);
+      this.cartItems.item.splice(index, 1);
     },
   },
 };

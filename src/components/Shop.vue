@@ -31,7 +31,7 @@
       <label>Total: {{ total | currency }} </label>
     </div>
 
-    <!-- not passing data to cart component
+    <!-- FIXME: not passing data to cart component
       <button @click="$router.push({name:'Cart', params: cartLineItems},)">You've ({{ cartItems.length }}) items in your cart!</button> -->
   </div>
 </template>
@@ -73,7 +73,7 @@ export default {
       input_val: "",
       counter: 0,
       cartItems: this.cartLineItems,
-      total: 0,
+      total: this.totalprice,
     };
   },
 
@@ -81,6 +81,10 @@ export default {
     cartLineItems: {
       type: Array,
       default: () => [],
+    },
+    totalprice: {
+      type: Number,
+      default: () => 0,
     },
   },
 
@@ -92,10 +96,10 @@ export default {
       }).format(value);
     },
   },
-
-  created() {
-    this.setTotal();
-  },
+  //calc total even after switching vue
+  // created() {
+  //   this.setTotal();
+  // },
 
   computed: {
     updateCartQty() {
@@ -132,6 +136,7 @@ export default {
       this.cartItems.push(product);
       bus.$emit("cartUpdated", this.cartItems);
     },
+    //counts total num of products in cart
     totalSum() {
       this.counter++;
       this.cartItems = this.counter;
@@ -141,33 +146,24 @@ export default {
         View Cart
       </router-link>;
     },
-    // check if id alr exists
-    isExist(itemId, items) {
-      return items.some((item) => item.id === itemId);
-      // for(var i=0; i < this.product.length; i++){
-      //   if( this.product[i].product.id == this.product.id){
-      //     return true
-      //   }
-      // }
-      // return false
-    },
+    //   return items.some((item) => item.id === itemId);
+    // },
 
-    //total resets to 0 after switching vue pages
-    setTotal() {
-      //check for items onload?
-      let total = 0;
-      if (this.cartLineItems != 0) {
-        this.cartItems.forEach((item, i) => {
-          total += item.price * item.qty;
-        });
-        return total;
-      }
-    },
+    // FIXME: total resets to 0 after switching vue pages,
+    //check if cart is empty onload?
+    // setTotal(cartLineItems) {
+    //   let total = 0;
+    //   if (cartLineItems != 0) {
+    //     cartLineItems.forEach((item, i) => {
+    //       total += item.price * item.qty;
+    //     });
+    //     return total;
+    //   }
+    // },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .product-list {
   padding-left: 2rem;

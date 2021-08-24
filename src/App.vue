@@ -9,47 +9,22 @@
         <span></span>
         </span> -->
 
-          <router-link
-            :to="{ name: 'Shop', params: { cartLineItems } }"
-            class="nav-item"
-            >Shop</router-link
-          >
-          <router-link
-            :to="{ name: 'Cart', params: { cartLineItems } }"
-            class="nav-item"
-            >Cart</router-link
-          >
-          <!-- <img src="./assets/carticon.jpeg"/> -->
-          <router-link to="admin" class="nav-item">Admin</router-link>
-
-          <!-- <router-link to="/" class="nav-item r-item">View Existing Products</router-link> -->
-
-          <!-- <div class="nav-item">
-            <p class="control">
-              <a class="button is-primary is-outlined">
-                <span class="icon">
-                  <i class="fa fa-download"></i>
-                </span>
-              </a>
-              </p>
-          </div> -->
+        <router-link
+          :to="{ name: 'Shop', params: { cartLineItems } }"
+          class="nav-item"
+          >Shop</router-link
+        >
+        <router-link
+          :to="{ name: 'Cart', params: { cartLineItems } }"
+          class="nav-item"
+          >Cart</router-link
+        >
+        <!-- <img src="./assets/carticon.jpeg"/> -->
+        <router-link to="admin" class="nav-item">Admin</router-link>
       </div>
     </div>
-
     <router-view></router-view>
   </div>
-
-  <!--footer-->
-
-  <!-- <footer class= "primary footer">
-  <div class="container">
-  <div class="columns">
-  <div class = "column">
-    <p>footer to put stuff</p>
-  </div>
-  <div class="column has-text-right">
-    <a class="icon" href="#"><i class="fa fa-facebook"></i></a> 
-</footer> -->
 </template>
 
 <script>
@@ -72,54 +47,24 @@ export default {
 
       this.cartLineItems = data;
     });
+    // FIXME: for total in Shop
+    // console.log(bus);
+    // bus.$on("cartUpdated", (data) => {
+    //   console.log(data);
+
+    //   this.total = data;
+    // });
   },
 };
 </script>
-
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  /* background-color: #333; */
-}
-
-li {
-  float: left;
-}
-
-li a {
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li a:hover:not(.active) {
-  background-color: beige;
-}
-
-.active {
-  background-color: #04aa6d;
-}
-img {
-  float: left;
-  padding-right: 10px;
-  height: 110px;
-  width: 110px;
-}
-</style>
 
 <style>
 * {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -150,7 +95,7 @@ html, body {
   color: black;
 }
 .nav-item {
-  color:white;
+  color: white;
   text-decoration: none;
   gap: 1em;
   padding: 10px;
