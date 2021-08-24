@@ -5,8 +5,7 @@
         <div style="width: 100%">
           <div style="display: flex">
             <!-- <img src="@/assets/bbt.jpeg" alt="bubble tea" /> -->
-            <img :src="cartItems.image" height="100" width="100" />
-            <!-- {{item.product.image}} -->
+            <img :src="item.product.image" height="100" width="100" />
             <div style="width: 100%; padding-left: 1rem">
               <h4 style="margin: 0">{{ item.product.prodname }}</h4>
               <p>Freshly made bubble tea</p>
@@ -38,63 +37,10 @@
           "
         >
           <div class="promo">*1 for 1 till 17 Aug</div>
-          <div class="price">Price: $11.70</div>
+          <div class="price">Price: ${{ prodPrice }}</div>
         </div>
       </div>
     </div>
-
-    <!-- <div class="prod-details">
-      <img src="../assets/bbt.jpeg" alt="bubble tea" />
-      <b>Bubble Tea</b>
-      <br />
-      Freshly made bubble tea
-      <br />
-      $3.90
-      <br />
-      Qty:3
-      <br />
-      <div class="promo">*1 for 1 till 17 Aug</div>
-
-      <div class="promo-price">$9.80</div>
-      <div class="price">Price: $11.70</div>
-    </div> -->
-    <!-- remove button 
-    button @click=$delete(products?/cartItems,item)">Remove</button>-->
-    <hr />
-
-    <!-- <div class="prod-details">
-      <img src="../assets/fruittea.jpeg" alt="Fruit tea" />
-      <b>Fruit Tea</b>
-      <br />
-      Freshly made fruit tea
-      <br />
-      $3.30
-      <br />
-      Qty:3
-      <br />
-      <div class="price">Price: $9.90</div>
-    </div>
-    <hr />
-
-    <div class="prod-details">
-      <img src="../assets/cpie.jpeg" alt="Chicken Pie" />
-      <b>Chicken Pie</b>
-      <br />
-      Freshly made chicken pie
-      <br />
-      $2.50
-      <br />
-      Qty:6
-      <br />
-      <div class="promo">*Purchases above 3, $2ea till 17 Aug</div>
-
-      <div class="promo-price">$12.00</div>
-      <div class="price">Price: $15.00</div>
-    </div>
-    <hr /> -->
-
-    <!-- passing array from shoppingpage -->
-    <!-- <div v-bind="cartItems"></div> -->
 
     <h2>Grand Total: $ {{ grandTotal }}</h2>
     <hr />
@@ -153,6 +99,7 @@ export default {
 
   created() {
     this.setItemQuantity();
+    this.calcProdPrice();
   },
 
   methods: {
@@ -215,11 +162,20 @@ export default {
       // emit to App.vue
       // bus.$emit('cartUpdated', lineItems);
     },
+
+    calcProdPrice(cartItems) {
+      let prodPrice = 0;
+      prodPrice = product.price * product.quantity;
+      prodPrice = this.prodPrice;
+      return;
+      // if (exist) {
+      //   prodPrice = product.price * product.quantity
+      //   return;
+    },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 p {
   margin-top: 0.25rem;
@@ -241,20 +197,6 @@ p {
   place-items: center;
 }
 
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 img {
   float: left;
   padding-right: 10px;

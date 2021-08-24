@@ -50,7 +50,6 @@
         </select>
 
         <button type="submit" @click="submitForm">Add Product</button>
-        <!-- <input type="submit" value="Submit"> -->
       </form>
     </div>
 
@@ -97,15 +96,15 @@
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3001";
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "Admin",
 
-components: {
-  FontAwesomeIcon,
-},
+  components: {
+    FontAwesomeIcon,
+  },
 
   data() {
     return {
@@ -113,7 +112,7 @@ components: {
         name: "",
         desc: "",
         price: "",
-        promo: '',
+        promo: "",
       },
       products: [],
       errors: [],
@@ -170,11 +169,8 @@ components: {
     },
   },
 };
-
-//TODO: document issues, flesh out css,can ignore image, validation for form,
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /* form */
 input[type="text"],
@@ -188,9 +184,6 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-}
-
-#desc {
 }
 
 .button-group {
@@ -216,49 +209,15 @@ button:hover {
 label {
   clear: right;
 }
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 div {
   border-radius: 5px;
   padding: 20px;
-}
-/* .content {
-  margin: auto;
-  padding: 20px;
-  width: 60%;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-} */
-.table {
-  margin: auto;
-  display: flex;
-  padding: 10px;
-  background-color: #f2f2f2;
 }
 .form {
   width: 100%;
   display: flex;
 }
-/* #search input[type="text"] {
-  background-image: url("/src/assets/searchicon.png");
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  padding: 12px 20px 12px 40px;
-  color: black;
-  width: 50%;
-} */
+
 .search-container input[type="text"] {
   width: 100px;
   float: left;
@@ -282,7 +241,6 @@ div {
   border: none;
   cursor: pointer;
 }
-
 .icon-search {
   display: grid;
   place-items: center;
@@ -291,6 +249,13 @@ div {
 /* .search-container button:hover {
   background: #ccc;
 } */
+
+.table {
+  margin: auto;
+  display: flex;
+  padding: 10px;
+  background-color: #f2f2f2;
+}
 #list {
   width: auto;
 }

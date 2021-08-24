@@ -33,12 +33,6 @@
 
     <!-- not passing data to cart component
       <button @click="$router.push({name:'Cart', params: cartLineItems},)">You've ({{ cartItems.length }}) items in your cart!</button> -->
-
-    <div class="row">
-      <div class="column">
-        <div class></div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -51,11 +45,6 @@ export default {
 
   data: function () {
     return {
-      items: [
-        { id: 1, url: "@/assets/cpie.jpeg", alt: "Chicken Pie" },
-        { id: 2, url: "@/assets/bbt.jpeg", alt: "Bubble Tea" },
-        { id: 3, url: ".@/assets/fruittea.jpeg", alt: "Fruit Tea" },
-      ],
       products: [
         {
           id: 1,
@@ -104,15 +93,11 @@ export default {
     },
   },
 
+  created() {
+    this.setTotal();
+  },
+
   computed: {
-    totalCost() {
-      let total = 0;
-      this.cartItems.forEach((item, i) => {
-        total += item.price * item.qty;
-      });
-      return total;
-      // return this.cartItems.reduce((total, item) => total += item.price, 0);
-    },
     updateCartQty() {
       if (this.product > 1) {
         this.qty += product.qty;
@@ -166,6 +151,18 @@ export default {
       // }
       // return false
     },
+
+    //total resets to 0 after switching vue pages
+    setTotal() {
+      //check for items onload?
+      let total = 0;
+      if (this.cartLineItems != 0) {
+        this.cartItems.forEach((item, i) => {
+          total += item.price * item.qty;
+        });
+        return total;
+      }
+    },
   },
 };
 </script>
@@ -176,7 +173,6 @@ export default {
   padding-left: 2rem;
   padding-right: 2rem;
 }
-
 .product-item {
   display: flex;
   align-items: center;
@@ -216,17 +212,6 @@ export default {
   /* width: 25%; */
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 .center {
   width: 100%;
   margin-left: auto;
@@ -235,6 +220,7 @@ a {
 .center td {
   padding: 10px;
 }
+
 .btnAdd {
   margin: auto;
   border: thistle;
