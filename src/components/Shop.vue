@@ -27,9 +27,11 @@
       <label>You've {{ cartItems.length }} items in your cart!</label>
     </div>
 
-    <div class="item-price">
+    <CartTotalPrice :items="cartLineItems"/>
+
+    <!-- <div class="item-price">
       <label>Total: {{ getTotal() | currency }} </label>
-    </div>
+    </div> -->
 
     <!-- FIXME: not passing data to cart component
       <button @click="$router.push({name:'Cart', params: cartLineItems},)">You've ({{ cartItems.length }}) items in your cart!</button> -->
@@ -39,9 +41,14 @@
 <script>
 /*eslint-disable*/
 import { bus } from "@/main";
+import CartTotalPrice from "./CartTotalPrice.vue";
 
 export default {
   name: "Shop",
+  
+  components: {
+    CartTotalPrice,
+  },
 
   data: function () {
     return {
@@ -73,7 +80,6 @@ export default {
       input_val: "",
       counter: 0,
       cartItems: this.cartLineItems,
-      // total: this.totalprice,
     };
   },
 
@@ -119,10 +125,10 @@ export default {
       //
     },
     cartItems(newValue) {
-      // this.total = this.cartItems.reduce(
-      //   (total, item) => (total += item.price),
-      //   0
-      // );
+      this.total = this.cartItems.reduce(
+        (total, item) => (total += item.price),
+        0
+      );
     },
   },
 
@@ -137,35 +143,21 @@ export default {
       this.counter++;
       this.cartItems = this.counter;
     },
+    getTotal() {
+      //   let total = 0;
+
+      //   this.cartItems.forEach((item) => {
+      //     total += item.price;
+      //   });
+      //   return total;
+      //good for doing sums
+      return this.cartItems.reduce((total, item) => (total += item.price), 0); //starting value
+    },
     viewCart() {
       <router-link to="/cart" tag="button">
         View Cart
       </router-link>;
     },
-    getTotal() {
-      // let total = 0;
-
-      // this.cartItems.forEach(item => {
-      //   total += item.price;
-      // })
-
-      //good for doing sums
-      return this.cartItems.reduce((total, item) => total += item.price, 0); //starting value
-    },
-    //   return items.some((item) => item.id === itemId);
-    // },
-
-    // FIXME: total resets to 0 after switching vue pages,
-    //check if cart is empty onload?
-    // setTotal(cartLineItems) {
-    //   let total = 0;
-    //   if (cartLineItems != 0) {
-    //     cartLineItems.forEach((item, i) => {
-    //       total += item.price * item.qty;
-    //     });
-    //     return total;
-    //   }
-    // },
   },
 };
 </script>

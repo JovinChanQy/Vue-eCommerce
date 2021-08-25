@@ -1,10 +1,16 @@
 <template>
   <div class="hello">
-    <div class="prod-details" v-for="(item, index) in cartItems" :key="item.product.id">
+    <div
+      class="prod-details"
+      v-for="(item, index) in cartItems"
+      :key="item.product.id"
+    >
       <div class="product-content">
         <div style="width: 100%">
           <div style="display: flex">
-            <button @click="removeItem(index)">Remove</button>
+            <button class="btn-remove" @click="removeItem(item.product)">
+              Remove
+            </button>
             <!-- <img src="@/assets/bbt.jpeg" alt="bubble tea" /> -->
             <img :src="item.product.image" height="100" width="100" />
             <div style="width: 100%; padding-left: 1rem">
@@ -15,13 +21,17 @@
                 Quantity:
                 <button
                   type="button"
-                  @click="deductOne()"
+                  @click="deductOne(index, item.product)"
                   class="btn-add-remove"
                 >
                   <span class="btn-content">-</span>
                 </button>
                 {{ item.quantity }}
-                <button type="button" @click="addOne(index, item.product.id)" class="btn-add-remove">
+                <button
+                  type="button"
+                  @click="addOne(index, item.product)"
+                  class="btn-add-remove"
+                >
                   <span class="btn-content">+</span>
                 </button>
               </p>
@@ -38,12 +48,15 @@
           "
         >
           <div class="promo">*1 for 1 till 17 Aug</div>
-          <!-- <div class="price">Price: ${{ prodPrice }}</div> -->
+          <div class="price">Price: ${{ calcTotal() }}</div>
         </div>
       </div>
     </div>
 
-    <!-- <h2>Grand Total: $ {{ grandTotal }}</h2> -->
+    <div class="item-price">
+      <!-- <h3><label>Total: {{ getTotal()  }} </label></h3> -->
+    </div>
+    <CartTotalPrice :items="cartItemData" />
     <hr />
     <button v-on:click="warn('Unable to make payment.', $event)" class="btn">
       Make Payment
@@ -54,14 +67,21 @@
 <script>
 /*eslint-disable*/
 import { bus } from "@/main";
+import CartTotalPrice from "./CartTotalPrice.vue";
 
 export default {
   name: "Cart",
 
+  components: {
+    CartTotalPrice,
+  },
+
   data() {
     return {
-      qty: 0,
       products: [],
+      input_val: "",
+      // cartItems: this.cartLineItems,
+      total: this.totalprice,
       cartItemData: this.cartLineItems, //from bus
       cartItems: [],
     };
@@ -75,9 +95,23 @@ export default {
   },
 
   watch: {
-    cartItemData(value) {
-      bus.$emit("cartUpdated", value);
+    cartItemData: {
+      handler: function (value) {
+        // [1,2,3]
+        console.log("WATCH Chagnged", value);
+
+        bus.$emit("cartUpdated", value);
+        //replacing entire array
+      },
+      immediate: true,
     },
+    // cartItemData(value) {
+    //   // [1,2,3]
+    //   console.log('WATCH Chagnged', value);
+
+    //   bus.$emit("cartUpdated", value);
+    //   //replacing entire array
+    // },
     //shop totalprice
   },
 
@@ -86,13 +120,12 @@ export default {
     // this.calcProdPrice();
   },
 
-
   computed: {
     // FIXME: calc cart total
     grandT() {
-      let grandTotal =0;
-      this.items.forEach(item => {
-        grandTotal += (item.price * item.qty);
+      let grandTotal = 0;
+      this.items.forEach((item) => {
+        grandTotal += item.price * item.qty;
       });
       return total;
     },
@@ -108,26 +141,33 @@ export default {
     },
 
     //-1 qty/ remove item, use cartItems
-    deductOne(itemIndex, idOfTheItemToBeRemove) {
-      this.cartItems.product[itemIndex].quantity -= 1;
+    deductOne(itemIndex, product) {
+      this.cartItems[itemIndex].quantity -= 1;
 
+      //can use filter, splice,pop find index
       const index = this.cartItemData.findIndex(
-        (item) => item.id === idOfTheItemToBeRemove
+        (item) => item.id === product.id
       );
-
-      this.cartItemData.product.splice(index, 1);
+      this.cartItemData.splice(index, 1);
     },
 
-    addOne(itemIndex, idOfTheItemToBeAdd) {
-      // console.log(this.cartItems[itemIndex])
+    addOne(itemIndex, product) {
       this.cartItems[itemIndex].quantity += 1;
-
+      console.log.cartItemData + this.cartItems;
+      //changes made to cart items
 
       // const index = this.cartItemData.findIndex(
       //   (item) => item.id === idOfTheItemToBeAdd
+      //   //add product array of prod with same id
       // );
 
-      // this.cartItemData.quantity += 1;
+      this.cartItemData.push(product);
+
+      //push to cartLineItem
+      // this.cartItems.push(this.cartItemData)
+      //without this., var must exist within scope
+      // this.cartLineItems.push(this.cartItems)
+      // console.log(this.cartLineItems);
     },
 
     setItemQuantity() {
@@ -158,24 +198,49 @@ export default {
       // emit to App.vue
       // bus.$emit('cartUpdated', lineItems);
     },
-
     // FIXME: calculate total for ea product in cart
     calcTotal() {
-      // let prodPrice = 0;
-      // this.cartLineItems.forEach((item) => {
-      //   const exist = prodPrice.some;
-      //   if (exist) {
-      //     prodPrice = product.price * product.quantity;
-      //   }
-      //   return;
-      // });
-      // return items.some((item) => item.id === itemId);
-    },
+      let prodTotal = 0;
+      // this.cartItems.forEach((product) => {
 
-    // FIXME : remove item from cart
-    removeItem(index) {
+      // console.log(
+      // this.prodPrice = price * quantity)
+      // // return;
+      // console.log(prodTotal += item.price );
+      // return this.cartItems.reduce((prodTotal, item) => (prodTotal += item.price), 0); //starting value
+
+      // });
+    },
+    getTotal() {
+      //   let total = 0;
+      //   this.cartItems.forEach((item) => {
+      //     total += item.price;
+      //   });
+      //   return total;
+      //good for doing sums
+      // return this.cartItems.reduce((total, item) => (total += item.price), 0); //starting value
+    },
+    removeItem(product) {
       // manipulating cartitems directly
-      this.cartItems.splice(index, 1);
+      // this.cartItems.splice(index, 1); OR
+
+      this.cartItems = this.cartItems.filter((item) => {
+        return item.product.id !== product.id;
+
+        //filter good if not manipulating whole array itself, returns new array,
+      });
+
+      let g = [];
+
+      this.cartItemData.forEach((item) => {
+        if (item.id === product.id) {
+          return;
+        }
+
+        g.push(item);
+      });
+
+      this.cartItemData = g;
     },
   },
 };
@@ -185,6 +250,14 @@ export default {
 p {
   margin-top: 0.25rem;
   margin-bottom: 0;
+}
+.btn-remove {
+  margin-right: 10px;
+  border: none;
+}
+.btn-remove:hover {
+  color: white;
+  background-color: #b53737;
 }
 
 .btn-add-remove {

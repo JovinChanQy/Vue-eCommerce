@@ -125,7 +125,9 @@ export default {
     this.getProducts();
   },
 
-  props: ["product"],
+  props: ["product"], 
+  total:Number,
+  
 
   methods: {
     submitForm() {

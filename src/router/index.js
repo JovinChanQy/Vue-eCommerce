@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Shop from '@/components/Shop.vue';
 import Admin from '@/components/Admin.vue';
 import Cart from '@/components/Cart.vue';
+import CartTotalPrice from '@/components/CartTotalPrice.vue';
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,13 @@ const routes = [
     name: 'Cart',
     path: '/cart',
     component: Cart,
+    props: true,
+  },
+
+  {
+    name: 'CartTotalPrice',
+    path: '/',
+    component: CartTotalPrice,
     props: true,
   },
 ]
