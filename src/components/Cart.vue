@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
-    <div class="prod-details" v-for="item in cartItems" :key="item.product.id">
+    <div class="prod-details" v-for="(item, index) in cartItems" :key="item.product.id">
       <div class="product-content">
         <div style="width: 100%">
           <div style="display: flex">
-            <button @click.prevent="removeItem(index)">Remove</button>
+            <button @click="removeItem(index)">Remove</button>
             <!-- <img src="@/assets/bbt.jpeg" alt="bubble tea" /> -->
             <img :src="item.product.image" height="100" width="100" />
             <div style="width: 100%; padding-left: 1rem">
@@ -21,7 +21,7 @@
                   <span class="btn-content">-</span>
                 </button>
                 {{ item.quantity }}
-                <button type="button" @click="addOne()" class="btn-add-remove">
+                <button type="button" @click="addOne(index, item.product.id)" class="btn-add-remove">
                   <span class="btn-content">+</span>
                 </button>
               </p>
@@ -38,12 +38,12 @@
           "
         >
           <div class="promo">*1 for 1 till 17 Aug</div>
-          <div class="price">Price: ${{ prodPrice }}</div>
+          <!-- <div class="price">Price: ${{ prodPrice }}</div> -->
         </div>
       </div>
     </div>
 
-    <h2>Grand Total: $ {{ grandTotal }}</h2>
+    <!-- <h2>Grand Total: $ {{ grandTotal }}</h2> -->
     <hr />
     <button v-on:click="warn('Unable to make payment.', $event)" class="btn">
       Make Payment
@@ -62,8 +62,7 @@ export default {
     return {
       qty: 0,
       products: [],
-      // grandTotal: 0,
-      cartItemData: this.cartLineItems,
+      cartItemData: this.cartLineItems, //from bus
       cartItems: [],
     };
   },
@@ -108,24 +107,27 @@ export default {
       alert(message);
     },
 
+    //-1 qty/ remove item, use cartItems
     deductOne(itemIndex, idOfTheItemToBeRemove) {
-      this.cartItems[itemIndex].quantity -= 1;
+      this.cartItems.product[itemIndex].quantity -= 1;
 
       const index = this.cartItemData.findIndex(
         (item) => item.id === idOfTheItemToBeRemove
       );
 
-      this.cartItemData.splice(index, 1);
+      this.cartItemData.product.splice(index, 1);
     },
 
     addOne(itemIndex, idOfTheItemToBeAdd) {
+      // console.log(this.cartItems[itemIndex])
       this.cartItems[itemIndex].quantity += 1;
 
-      const index = this.cartItemData.findIndex(
-        (item) => item.id === idOfTheItemToBeAdd
-      );
 
-      this.cartItemData.quantity += 1;
+      // const index = this.cartItemData.findIndex(
+      //   (item) => item.id === idOfTheItemToBeAdd
+      // );
+
+      // this.cartItemData.quantity += 1;
     },
 
     setItemQuantity() {
@@ -159,23 +161,21 @@ export default {
 
     // FIXME: calculate total for ea product in cart
     calcTotal() {
-      let prodPrice = 0;
-      this.cartLineItems.forEach((item) => {
-        const exist = prodPrice.some;
-        if (exist) {
-          prodPrice = product.price * product.quantity;
-        }
-        return;
-      });
-      return items.some((item) => item.id === itemId);
+      // let prodPrice = 0;
+      // this.cartLineItems.forEach((item) => {
+      //   const exist = prodPrice.some;
+      //   if (exist) {
+      //     prodPrice = product.price * product.quantity;
+      //   }
+      //   return;
+      // });
+      // return items.some((item) => item.id === itemId);
     },
-
-    
 
     // FIXME : remove item from cart
     removeItem(index) {
-      // this.item.product.splice(index,1);
-      this.cartItems.item.splice(index, 1);
+      // manipulating cartitems directly
+      this.cartItems.splice(index, 1);
     },
   },
 };

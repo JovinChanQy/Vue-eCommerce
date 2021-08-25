@@ -28,7 +28,7 @@
     </div>
 
     <div class="item-price">
-      <label>Total: {{ total | currency }} </label>
+      <label>Total: {{ getTotal() | currency }} </label>
     </div>
 
     <!-- FIXME: not passing data to cart component
@@ -73,7 +73,7 @@ export default {
       input_val: "",
       counter: 0,
       cartItems: this.cartLineItems,
-      total: this.totalprice,
+      // total: this.totalprice,
     };
   },
 
@@ -96,10 +96,6 @@ export default {
       }).format(value);
     },
   },
-  //calc total even after switching vue
-  // created() {
-  //   this.setTotal();
-  // },
 
   computed: {
     updateCartQty() {
@@ -123,10 +119,10 @@ export default {
       //
     },
     cartItems(newValue) {
-      this.total = this.cartItems.reduce(
-        (total, item) => (total += item.price),
-        0
-      );
+      // this.total = this.cartItems.reduce(
+      //   (total, item) => (total += item.price),
+      //   0
+      // );
     },
   },
 
@@ -137,7 +133,7 @@ export default {
       bus.$emit("cartUpdated", this.cartItems);
     },
     //counts total num of products in cart
-    totalSum() {
+    totalItemsCount() {
       this.counter++;
       this.cartItems = this.counter;
     },
@@ -145,6 +141,16 @@ export default {
       <router-link to="/cart" tag="button">
         View Cart
       </router-link>;
+    },
+    getTotal() {
+      // let total = 0;
+
+      // this.cartItems.forEach(item => {
+      //   total += item.price;
+      // })
+
+      //good for doing sums
+      return this.cartItems.reduce((total, item) => total += item.price, 0); //starting value
     },
     //   return items.some((item) => item.id === itemId);
     // },

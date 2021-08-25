@@ -54,12 +54,8 @@
     </div>
 
     <hr />
-    <!-- <form id="search">
-      <input type="text" name="search" placeholder="Search.." />
-    </form> -->
 
     <div class="search-container">
-      <!-- <form action="> -->
       <input type="text" placeholder="Search.." name="search" />
       <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
       <button type="submit">
@@ -85,9 +81,13 @@
           <td>{{ product.desc }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.promo }}</td>
+          <td><button class="btnUpdate" @click="update()">Update</button></td>
+          <td><button class="btnDelete" @click="del()">Delete</button></td>
         </tr>
       </tbody>
     </table>
+
+    
   </div>
 </template>
 
@@ -164,6 +164,19 @@ export default {
           this.products = response.data;
         });
     },
+
+    //selected field changes to textbox, updated text post to db
+    update() {
+      
+      this.$set(this.product, 0,0)
+
+    },
+    //delete record of selected row
+    del() {
+      
+    },
+
+
     testButton() {
       console.log("TESTING BUTTON");
     },
