@@ -10,7 +10,7 @@ const client = require('mongodb').MongoClient;
 const uri =
     `mongodb+srv://${username}:${password}@${cluster}.lyerf.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 const mongoose = require('mongoose');
-const { Router } = require('express');
+const { Router, response, request, json } = require('express');
 
 // Middleware
 app.use(express.json());
@@ -43,7 +43,7 @@ const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
     // image: String,
-    name: String, 
+    name: String,
     desc: String,
     price: Number,
     promo: String,
@@ -61,7 +61,6 @@ app.get('/products', async function (req, res) {
     }
 });
 
-//TODO server side POST 
 app.post('/product/add', async function (request, response) {
 
     const newProduct = new Product({
@@ -81,20 +80,45 @@ app.post('/product/add', async function (request, response) {
     }
 });
 
+// TODO: update new data to db
+// app.put('/admin', (request, response) => {
+
+//     const newProduct = new Product({
+//         // image: request.body.image,
+//         name: request.body.name,
+//         desc: request.body.desc,
+//         price: request.body.price,
+//         promo: request.body.promo,
+//     })
+
+//     try {
+//         const result = await newProduct.save();
+
+//         response.json(result);
+//     }
+//     catch (error) {
+//         console.err(error);
+//     }
+// });
+
 // FIXME prod to del
-// app.delete('product/delete:name', (request, response)=> {
-//   try {
-//     const result = await newProduct.save();
+app.delete('product/delete:name', (request, response) => {
+    try {
+        Product.remove({ id: request.params.name }, function (err) {
+            console.log(response);
+            response.json(result);
+        })
+    }
+    catch (error) {
+        console.error(error)
+    }
+});
 
-//     response.json(result);
-// } catch (error) {
-//     console.error(error);
-// };
 
 
-// app.get('/', async (req, res) => {
-//     res.send('CORS enabled!')
-// })
+app.get('/', async (req, res) => {
+    res.send('CORS enabled!')
+})
 
 
 // client.connect(error => {

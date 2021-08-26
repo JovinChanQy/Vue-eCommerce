@@ -43,10 +43,6 @@
           >
             {{ option }}
           </option>
-          <!-- <option selected>None</option>
-          <option>20% off</option>
-          <option>1 for 1</option>
-          <option>2</option> -->
         </select>
 
         <button type="submit" @click="submitForm">Add Product</button>
@@ -61,7 +57,6 @@
       <button type="submit">
         <FontAwesomeIcon :icon="icon" class="icon-search" />
       </button>
-      <!-- </form> -->
     </div>
 
     <!-- {{newProduct}} -->
@@ -168,7 +163,7 @@ export default {
     },
 
     //highlight first field of selected record
-    //fields in row change to textbox, update text post to db
+    // TOFIX: fields in row change to textbox, update text post to db
     update(index) {
       const changeProd = this.product[index];
       changeProd.editable = !changeProd.editable;
@@ -298,5 +293,14 @@ div {
 
 #list tr:hover {
   background-color: #ddd;
+}
+
+.btnDelete {
+   margin-right: 10px;
+  border: none;
+}
+.btnDelete:hover {
+  color: white;
+  background-color: #b53737;
 }
 </style>

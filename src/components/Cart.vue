@@ -48,14 +48,11 @@
           "
         >
           <div class="promo">*1 for 1 till 17 Aug</div>
-          <div class="price">Price: ${{ calcTotal() }}</div>
+          <div class="price">Price: ${{ prodTotal() }}</div>
         </div>
       </div>
     </div>
 
-    <div class="item-price">
-      <!-- <h3><label>Total: {{ getTotal()  }} </label></h3> -->
-    </div>
     <CartTotalPrice :items="cartItemData" />
     <hr />
     <button v-on:click="warn('Unable to make payment.', $event)" class="btn">
@@ -199,7 +196,7 @@ export default {
       // bus.$emit('cartUpdated', lineItems);
     },
     // FIXME: calculate total for ea product in cart
-    calcTotal() {
+    prodTotal() {
       let prodTotal = 0;
       // this.cartItems.forEach((product) => {
 
