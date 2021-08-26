@@ -10,6 +10,7 @@ const client = require('mongodb').MongoClient;
 const uri =
     `mongodb+srv://${username}:${password}@${cluster}.lyerf.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 const mongoose = require('mongoose');
+const { Router } = require('express');
 
 // Middleware
 app.use(express.json());
@@ -80,10 +81,20 @@ app.post('/product/add', async function (request, response) {
     }
 });
 
+// FIXME prod to del
+// app.delete('product/delete:name', (request, response)=> {
+//   try {
+//     const result = await newProduct.save();
 
-app.get('/', async (req, res) => {
-    res.send('CORS enabled!')
-})
+//     response.json(result);
+// } catch (error) {
+//     console.error(error);
+// };
+
+
+// app.get('/', async (req, res) => {
+//     res.send('CORS enabled!')
+// })
 
 
 // client.connect(error => {

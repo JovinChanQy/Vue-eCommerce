@@ -81,13 +81,14 @@
           <td>{{ product.desc }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.promo }}</td>
-          <td><button class="btnUpdate" @click="update()">Update</button></td>
-          <td><button class="btnDelete" @click="del()">Delete</button></td>
+          <td>
+            <!-- TODO: toggle button edit>update>edit  -->
+            <button class="btnUpdate" @click="update(index)">Update</button>
+          </td>
+          <td><button class="btnDelete" @click="del(index)">Delete</button></td>
         </tr>
       </tbody>
     </table>
-
-    
   </div>
 </template>
 
@@ -125,9 +126,8 @@ export default {
     this.getProducts();
   },
 
-  props: ["product"], 
-  total:Number,
-  
+  props: ["product"],
+  total: Number,
 
   methods: {
     submitForm() {
@@ -167,17 +167,22 @@ export default {
         });
     },
 
-    //selected field changes to textbox, updated text post to db
-    update() {
-      
-      this.$set(this.product, 0,0)
-
+    //highlight first field of selected record
+    //fields in row change to textbox, update text post to db
+    update(index) {
+      const changeProd = this.product[index];
+      changeProd.editable = !changeProd.editable;
+      this.$set(this.product, index, changeProd);
     },
     //delete record of selected row
-    del() {
-      
-    },
-
+    del(index) {
+      axios .delete("/product/delete" + index)
+      // const delProd = this.product[index]
+      .then (response => {
+        this.result.splice(index,1);
+        console.log(this.response)
+      });
+  },
 
     testButton() {
       console.log("TESTING BUTTON");
