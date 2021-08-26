@@ -1,6 +1,6 @@
 <template>
   <div class="item-price">
-    <label>Total: {{ getTotal() }} </label>
+    <label>Total: {{ getTotal() | currency}} </label>
   </div>
 </template>
 
@@ -45,12 +45,12 @@ export default {
   },
 
   filters: {
-    //     currency: (value) => {
-    //       return new Intl.NumberFormat("en-SG", {
-    //         style: "currency",
-    //         currency: "SGD",
-    //       }).format(value);
-    //     },
+        currency: (value) => {
+          return new Intl.NumberFormat("en-SG", {
+            style: "currency",
+            currency: "SGD",
+          }).format(value);
+        },
   },
 };
 </script>

@@ -11,7 +11,6 @@
             <button class="btn-remove" @click="removeItem(item.product)">
               Remove
             </button>
-            <!-- <img src="@/assets/bbt.jpeg" alt="bubble tea" /> -->
             <img :src="item.product.image" height="100" width="100" />
             <div style="width: 100%; padding-left: 1rem">
               <h4 style="margin: 0">{{ item.product.prodname }}</h4>

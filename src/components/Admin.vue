@@ -70,15 +70,31 @@
         </tr>
       </thead>
 
-      <tbody>
+            <!-- TODO: toggle button edit>update>edit  -->
+      <!-- <tbody>
         <tr v-for="product in products" :key="product._id">
           <td>{{ product.name }}</td>
           <td>{{ product.desc }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.promo }}</td>
           <td>
+            <button class="btnUpdate" @click="update(index)">Update</button>
+          </td>
+          <td><button class="btnDelete" @click="del(index)">Delete</button></td>
+        </tr>
+      </tbody> -->
+
+      <tbody>
+        <tr v-for="product in products" :key="product._id">
+          <td><input type="text" :disabled="disabled == 1">{{ product.name }}
+          </td>
+          <td>{{ product.desc }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.promo }}</td>
+          <td>
             <!-- TODO: toggle button edit>update>edit  -->
             <button class="btnUpdate" @click="update(index)">Update</button>
+          <!-- <button @click="disabled = (disabled + 1) % 2">Update</button> -->
           </td>
           <td><button class="btnDelete" @click="del(index)">Delete</button></td>
         </tr>
@@ -114,6 +130,7 @@ export default {
       errors: [],
       promoOptions: ["None", "20% Off", "1 For 1"],
       icon: faSearch,
+      disabled: 1,
     };
   },
 
@@ -165,6 +182,10 @@ export default {
     //highlight first field of selected record
     // TOFIX: fields in row change to textbox, update text post to db
     update(index) {
+      //cannot find index of product
+      console.log(index);
+      this.product[index].disabled = 2;
+      disabled = (disabled + 1) % 2;
       const changeProd = this.product[index];
       changeProd.editable = !changeProd.editable;
       this.$set(this.product, index, changeProd);
