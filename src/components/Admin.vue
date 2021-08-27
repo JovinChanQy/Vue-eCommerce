@@ -90,8 +90,8 @@
             <input
               type="text"
               :id="`input-${product._id}`"
-              disabled
               :value="product.name"
+              disabled
             />
           </td>
           <td>{{ product.desc }}</td>
@@ -99,10 +99,9 @@
           <td>{{ product.promo }}</td>
           <td>
             <!-- TODO: toggle button edit>update>edit  -->
-            <button class="btnUpdate" @click="update(product._id)">
-              Update
+            <button class="btnUpdate" @click="toggleEdit($event, product._id)">
+              Edit
             </button>
-            <!-- <button @click="disabled = (disabled + 1) % 2">Update</button> -->
           </td>
           <td><button class="btnDelete" @click="del(index)">Delete</button></td>
         </tr>
@@ -138,7 +137,7 @@ export default {
       errors: [],
       promoOptions: ["None", "20% Off", "1 For 1"],
       icon: faSearch,
-      disabled: 1,
+
     };
   },
 
@@ -187,24 +186,31 @@ export default {
         });
     },
 
-    //highlight first field of selected record
-    // TOFIX: fields in row change to textbox, update text post to db
-    update(productId) {
-      //cannot find index of product
+    toggleButtonText(text) {
+        return text === 'Edit' ? 'Update' : 'Edit';
+    },
+    toggleEdit(event, productId) {
+      console.log(event.target.innerText);
+      const buttonText = event.target.innerText;
+
+      event.target.innerText = this.toggleButtonText(buttonText);
 
       // get the element
       const element = document.querySelector(`#input-${productId}`);
 
-      // change the attribute value - disabled
-      element.removeAttribute('disabled');
+      // element.setAttribute('disabled', '')
+      
+      const isLocked = element.disabled;
 
+      if (isLocked) { 
+        element.removeAttribute('disabled');
+      } else {
+        element.setAttribute('disabled', "");
+      }
 
-      // const changeProd = this.product[index];
-      // changeProd.editable = !changeProd.editable;
-      // this.$set(this.product, index, changeProd);
     },
     //delete record of selected row
-    del(index) {
+    delete(index) {
       axios
         .delete("/product/delete" + index)
         // const delProd = this.product[index]
