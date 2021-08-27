@@ -70,7 +70,7 @@
         </tr>
       </thead>
 
-            <!-- TODO: toggle button edit>update>edit  -->
+      <!-- TODO: toggle button edit>update>edit  -->
       <!-- <tbody>
         <tr v-for="product in products" :key="product._id">
           <td>{{ product.name }}</td>
@@ -86,15 +86,23 @@
 
       <tbody>
         <tr v-for="product in products" :key="product._id">
-          <td><input type="text" :disabled="disabled == 1">{{ product.name }}
+          <td>
+            <input
+              type="text"
+              :id="`input-${product._id}`"
+              disabled
+              :value="product.name"
+            />
           </td>
           <td>{{ product.desc }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.promo }}</td>
           <td>
             <!-- TODO: toggle button edit>update>edit  -->
-            <button class="btnUpdate" @click="update(index)">Update</button>
-          <!-- <button @click="disabled = (disabled + 1) % 2">Update</button> -->
+            <button class="btnUpdate" @click="update(product._id)">
+              Update
+            </button>
+            <!-- <button @click="disabled = (disabled + 1) % 2">Update</button> -->
           </td>
           <td><button class="btnDelete" @click="del(index)">Delete</button></td>
         </tr>
@@ -181,24 +189,30 @@ export default {
 
     //highlight first field of selected record
     // TOFIX: fields in row change to textbox, update text post to db
-    update(index) {
+    update(productId) {
       //cannot find index of product
-      console.log(index);
-      this.product[index].disabled = 2;
-      disabled = (disabled + 1) % 2;
-      const changeProd = this.product[index];
-      changeProd.editable = !changeProd.editable;
-      this.$set(this.product, index, changeProd);
+
+      // get the element
+      const element = document.querySelector(`#input-${productId}`);
+
+      // change the attribute value - disabled
+      element.removeAttribute('disabled');
+
+
+      // const changeProd = this.product[index];
+      // changeProd.editable = !changeProd.editable;
+      // this.$set(this.product, index, changeProd);
     },
     //delete record of selected row
     del(index) {
-      axios .delete("/product/delete" + index)
-      // const delProd = this.product[index]
-      .then (response => {
-        this.result.splice(index,1);
-        console.log(this.response)
-      });
-  },
+      axios
+        .delete("/product/delete" + index)
+        // const delProd = this.product[index]
+        .then((response) => {
+          this.result.splice(index, 1);
+          console.log(this.response);
+        });
+    },
 
     testButton() {
       console.log("TESTING BUTTON");
@@ -317,7 +331,7 @@ div {
 }
 
 .btnDelete {
-   margin-right: 10px;
+  margin-right: 10px;
   border: none;
 }
 .btnDelete:hover {
