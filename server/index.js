@@ -63,6 +63,8 @@ app.get('/products', async function (req, res) {
 
 app.post('/product/add', async function (request, response) {
 
+    console.log(request);
+
     const newProduct = new Product({
         // image: request.body.image,
         name: request.body.name,
@@ -80,39 +82,37 @@ app.post('/product/add', async function (request, response) {
     }
 });
 
-// TODO: update new data to db
-// app.put('/admin', (request, response) => {
+// put = all fields, whole obj, patch = not whole obj 
+app.patch('/products/:id', async function (request, response) {
+    const mockId = '611cc7d19651943271572db6';
+    const product = await Product.findById(request.body.id);
 
-//     const newProduct = new Product({
-//         // image: request.body.image,
-//         name: request.body.name,
-//         desc: request.body.desc,
-//         price: request.body.price,
-//         promo: request.body.promo,
-//     })
+    try {
 
-//     try {
-//         const result = await newProduct.save();
+        console.log(request.body);
+        product.name = request.body.name;
+        await product.save();
 
-//         response.json(result);
-//     }
-//     catch (error) {
-//         console.err(error);
-//     }
-// });
+        response.json(product);
+    } catch (error) {
+        console.error(error);
+    }
+
+});
+
 
 // FIXME prod to del
-app.delete('product/delete:name', (request, response) => {
-    try {
-        Product.remove({ id: request.params.name }, function (err) {
-            console.log(response);
-            response.json(result);
-        })
-    }
-    catch (error) {
-        console.error(error)
-    }
+app.delete('product/delete/:name', (request, response) => {
+
+    const { name } = req.params;
+
+    const productIndex = products.findIndex(p => p.id == id);
+
+    products.splice(productIndex, 1);
+
+    return res.send();
 });
+
 
 
 

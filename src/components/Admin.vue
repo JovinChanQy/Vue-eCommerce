@@ -70,20 +70,6 @@
         </tr>
       </thead>
 
-      <!-- TODO: toggle button edit>update>edit  -->
-      <!-- <tbody>
-        <tr v-for="product in products" :key="product._id">
-          <td>{{ product.name }}</td>
-          <td>{{ product.desc }}</td>
-          <td>{{ product.price }}</td>
-          <td>{{ product.promo }}</td>
-          <td>
-            <button class="btnUpdate" @click="update(index)">Update</button>
-          </td>
-          <td><button class="btnDelete" @click="del(index)">Delete</button></td>
-        </tr>
-      </tbody> -->
-
       <tbody>
         <tr v-for="product in products" :key="product._id">
           <td>
@@ -92,6 +78,7 @@
               :id="`input-${product._id}`"
               :value="product.name"
               disabled
+              @change='nameChange'
             />
           </td>
           <td>{{ product.desc }}</td>
@@ -137,32 +124,33 @@ export default {
       errors: [],
       promoOptions: ["None", "20% Off", "1 For 1"],
       icon: faSearch,
-
+      newName: this.nameChange,
     };
   },
+
+    props: ["product"],
+    total: Number,
 
   mounted() {
     this.getProducts();
   },
 
-  props: ["product"],
-  total: Number,
 
   methods: {
     submitForm() {
-      this.errors = [];
-      if (!this.form.name) {
-        this.errors.push("Product name cannot be empty");
-      }
-      if (!this.form.desc) {
-        this.errors.push("Description cannot be empty");
-      }
-      if (!this.form.price) {
-        this.errors.push("Price cannot be empty");
-      }
-      if (!this.form.promo) {
-        this.errors.push("Promotion cannot be empty");
-      }
+      // this.errors = [];
+      // if (!this.form.name) {
+      //   this.errors.push("Product name cannot be empty");
+      // }
+      // if (!this.form.desc) {
+      //   this.errors.push("Description cannot be empty");
+      // }
+      // if (!this.form.price) {
+      //   this.errors.push("Price cannot be empty");
+      // }
+      // if (!this.form.promo) {
+      //   this.errors.push("Promotion cannot be empty");
+      // }
       axios
         .post("/product/add", this.form)
         .then((response) => {
@@ -187,7 +175,7 @@ export default {
     },
 
     toggleButtonText(text) {
-        return text === 'Edit' ? 'Update' : 'Edit';
+      return text === "Edit" ? "Update" : "Edit";
     },
     toggleEdit(event, productId) {
       console.log(event.target.innerText);
@@ -199,31 +187,43 @@ export default {
       const element = document.querySelector(`#input-${productId}`);
 
       // element.setAttribute('disabled', '')
-      
+
       const isLocked = element.disabled;
 
-      if (isLocked) { 
-        element.removeAttribute('disabled');
+      if (isLocked) {
+        element.removeAttribute("disabled");
+        this.updateProduct(productId);
       } else {
-        element.setAttribute('disabled', "");
+        element.setAttribute("disabled", "");
       }
-
     },
-    //delete record of selected row
-    delete(index) {
-      axios
-        .delete("/product/delete" + index)
-        // const delProd = this.product[index]
-        .then((response) => {
-          this.result.splice(index, 1);
-          console.log(this.response);
-        });
+    
+    nameChange(event) {
+      this.$emit("nameChange", event.target.value)
     },
-
-    testButton() {
-      console.log("TESTING BUTTON");
+    //url? to hit, use emit to GET, props to pass data,
+    //then try vmodel
+    updateProduct(productId) {
+      // axios.patch("/product/" + productId);
+      // this.$emit('name-updated', this.name)
     },
   },
+
+  //delete record of selected row
+  delete(index) {
+    axios
+      .delete("/product/delete" + index)
+      // const delProd = this.product[index]
+      .then((response) => {
+        this.result.splice(index, 1);
+        console.log(this.response);
+      });
+  },
+
+  //     testButton() {
+  //       console.log("TESTING BUTTON");
+  //     },
+  //   },
 };
 </script>
 
