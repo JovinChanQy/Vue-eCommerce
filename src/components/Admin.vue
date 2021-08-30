@@ -58,7 +58,6 @@
       </button>
     </div>
 
-    <!-- {{newProduct}} -->
     <table id="list">
       <thead>
         <tr>
@@ -112,12 +111,6 @@ export default {
   data() {
     return {
       form: [],
-      // form: {
-      //   name: "",
-      //   desc: "",
-      //   price: "",
-      //   promo: "",
-      // },
       products: [],
       errors: [],
       promoOptions: ["None", "20% Off", "1 For 1"],
@@ -135,19 +128,6 @@ export default {
 
   methods: {
     submitForm() {
-      // this.errors = [];
-      // if (!this.form.name) {
-      //   this.errors.push("Product name cannot be empty");
-      // }
-      // if (!this.form.desc) {
-      //   this.errors.push("Description cannot be empty");
-      // }
-      // if (!this.form.price) {
-      //   this.errors.push("Price cannot be empty");
-      // }
-      // if (!this.form.promo) {
-      //   this.errors.push("Promotion cannot be empty");
-      // }
       axios
         .post("/product/add", this.form)
         .then((response) => {
@@ -220,11 +200,20 @@ export default {
     },
 
     updateProduct(productId) {
-      const data = this.form.filter((item) => {
+      const product = this.form.filter((item) => {
         return item._id === productId;
       })[0];
 
-      console.log(productId, data);
+      axios
+        .patch("/products/" + productId , product)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      // console.log("DATA SENT", productId, data);
     },
   },
 

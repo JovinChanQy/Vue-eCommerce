@@ -6,7 +6,6 @@ const password = '123';
 const cluster = 'cluster0';
 const dbName = 'Products';
 const port = 3001;
-const client = require('mongodb').MongoClient;
 const uri =
     `mongodb+srv://${username}:${password}@${cluster}.lyerf.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 const mongoose = require('mongoose');
@@ -42,7 +41,6 @@ db.once('open', function () {
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-    // image: String,
     name: String,
     desc: String,
     price: Number,
@@ -66,7 +64,6 @@ app.post('/product/add', async function (request, response) {
     console.log(request);
 
     const newProduct = new Product({
-        // image: request.body.image,
         name: request.body.name,
         desc: request.body.desc,
         price: request.body.price,
@@ -82,17 +79,20 @@ app.post('/product/add', async function (request, response) {
     }
 });
 
-// put = all fields, whole obj, patch = not whole obj 
 app.patch('/products/:id', async function (request, response) {
-    const mockId = '611cc7d19651943271572db6';
-    const product = await Product.findById(request.body.id);
 
     try {
+        const product = await Product.findById(request.params.id);
 
-        console.log(request.body);
-        product.name = request.body.name;
+        const data = request.body;
+        console.log('before', data);
+        delete data._id;
+
+        console.log('after', data);
+
+        product.set(request.body);
+
         await product.save();
-
         response.json(product);
     } catch (error) {
         console.error(error);
@@ -113,20 +113,11 @@ app.delete('product/delete/:name', (request, response) => {
     return res.send();
 });
 
-
-
-
 app.get('/', async (req, res) => {
     res.send('CORS enabled!')
 })
 
 
-// client.connect(error => {
-
-//     getData(newProduct).then(data => {
-//         db.collection('details').insertOne(data)
-//     })
-// })
 
 
 
