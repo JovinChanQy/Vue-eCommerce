@@ -27,11 +27,7 @@
       <label>You've {{ cartItems.length }} items in your cart!</label>
     </div>
 
-    <CartTotalPrice :items="cartLineItems"/>
-
-    <!-- <div class="item-price">
-      <label>Total: {{ getTotal() | currency }} </label>
-    </div> -->
+    <CartTotalPrice :items="cartLineItems" />
 
     <!-- FIXME: not passing data to cart component
       <button @click="$router.push({name:'Cart', params: cartLineItems},)">You've ({{ cartItems.length }}) items in your cart!</button> -->
@@ -45,7 +41,7 @@ import CartTotalPrice from "./CartTotalPrice.vue";
 
 export default {
   name: "Shop",
-  
+
   components: {
     CartTotalPrice,
   },
@@ -144,12 +140,6 @@ export default {
       this.cartItems = this.counter;
     },
     getTotal() {
-      //   let total = 0;
-
-      //   this.cartItems.forEach((item) => {
-      //     total += item.price;
-      //   });
-      //   return total;
       //good for doing sums
       return this.cartItems.reduce((total, item) => (total += item.price), 0); //starting value
     },

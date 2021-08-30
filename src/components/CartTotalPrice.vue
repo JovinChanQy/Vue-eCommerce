@@ -37,7 +37,6 @@ export default {
         this.items.forEach((item) => {
           total += item.price;
         });
-        // return 99;
         return total;
       //good for doing sums
       //   return this.cartItemData.reduce((total, item) => (total += item.price), 0); //starting value

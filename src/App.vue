@@ -1,13 +1,7 @@
 <template>
   <div id="app">
-    <!-- <font-awesome-icon icon="user-secret" /> -->
     <div class="nav">
       <div class="container">
-        <!-- <span class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-        </span> -->
 
         <router-link
           :to="{ name: 'Shop', params: { cartLineItems } }"
@@ -19,7 +13,6 @@
           class="nav-item"
           >Cart</router-link
         >
-        <!-- <img src="./assets/carticon.jpeg"/> -->
         <router-link to="admin" class="nav-item">Admin</router-link>
       </div>
     </div>
@@ -47,13 +40,6 @@ export default {
 
       this.cartLineItems = data;
     });
-    // FIXME: for total in Shop
-    // console.log(bus);
-    // bus.$on("cartUpdated", (data) => {
-    //   console.log(data);
-
-    //   this.total = data;
-    // });
   },
 };
 </script>

@@ -53,7 +53,6 @@
 
     <div class="search-container">
       <input type="text" placeholder="Search.." name="search" />
-      <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
       <button type="submit">
         <FontAwesomeIcon :icon="icon" class="icon-search" />
       </button>
@@ -71,21 +70,19 @@
       </thead>
 
       <tbody>
-        <tr v-for="product in products" :key="product._id">
+        <tr v-for="product in form" :key="product._id">
           <td>
             <input
+              v-model="product.name"
               type="text"
               :id="`input-${product._id}`"
-              :value="product.name"
               disabled
-              @change='nameChange'
             />
           </td>
           <td>{{ product.desc }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.promo }}</td>
           <td>
-            <!-- TODO: toggle button edit>update>edit  -->
             <button class="btnUpdate" @click="toggleEdit($event, product._id)">
               Edit
             </button>
@@ -114,12 +111,13 @@ export default {
 
   data() {
     return {
-      form: {
-        name: "",
-        desc: "",
-        price: "",
-        promo: "",
-      },
+      form: [],
+      // form: {
+      //   name: "",
+      //   desc: "",
+      //   price: "",
+      //   promo: "",
+      // },
       products: [],
       errors: [],
       promoOptions: ["None", "20% Off", "1 For 1"],
@@ -128,13 +126,12 @@ export default {
     };
   },
 
-    props: ["product"],
-    total: Number,
+  props: ["product"],
+  total: Number,
 
   mounted() {
     this.getProducts();
   },
-
 
   methods: {
     submitForm() {
@@ -171,7 +168,19 @@ export default {
         // })
         .then((response) => {
           this.products = response.data;
+          this.initForm(response.data);
         });
+    },
+    initForm(products) {
+      products.forEach((product) => {
+        this.form.push({
+          _id: product._id,
+          name: product.name,
+          price: product.price,
+          desc: product.desc,
+          promo: product.promo,
+        });
+      });
     },
 
     toggleButtonText(text) {
@@ -181,31 +190,41 @@ export default {
       console.log(event.target.innerText);
       const buttonText = event.target.innerText;
 
+      const productIds = this.form
+        .map((item) => item._id)
+        .filter((id) => id !== productId);
+
       event.target.innerText = this.toggleButtonText(buttonText);
 
       // get the element
       const element = document.querySelector(`#input-${productId}`);
 
-      // element.setAttribute('disabled', '')
-
+      // Check if element is disabled
       const isLocked = element.disabled;
 
       if (isLocked) {
         element.removeAttribute("disabled");
-        this.updateProduct(productId);
+
+        // Fire to lock other elements
+        this.setDisabledAttribute(productIds);
       } else {
         element.setAttribute("disabled", "");
+        this.updateProduct(productId);
       }
     },
-    
-    nameChange(event) {
-      this.$emit("nameChange", event.target.value)
+    setDisabledAttribute(productIds) {
+      productIds.forEach((id) => {
+        const element = document.querySelector(`#input-${id}`);
+        element.setAttribute("disabled", "");
+      });
     },
-    //url? to hit, use emit to GET, props to pass data,
-    //then try vmodel
+
     updateProduct(productId) {
-      // axios.patch("/product/" + productId);
-      // this.$emit('name-updated', this.name)
+      const data = this.form.filter((item) => {
+        return item._id === productId;
+      })[0];
+
+      console.log(productId, data);
     },
   },
 
@@ -219,11 +238,6 @@ export default {
         console.log(this.response);
       });
   },
-
-  //     testButton() {
-  //       console.log("TESTING BUTTON");
-  //     },
-  //   },
 };
 </script>
 
@@ -301,10 +315,6 @@ div {
   display: grid;
   place-items: center;
 }
-
-/* .search-container button:hover {
-  background: #ccc;
-} */
 
 .table {
   margin: auto;

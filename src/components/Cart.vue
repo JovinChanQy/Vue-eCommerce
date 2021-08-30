@@ -43,8 +43,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem;
-          "
+            padding: 1rem;"
         >
           <div class="promo">*1 for 1 till 17 Aug</div>
           <div class="price">Price: ${{ prodTotal() }}</div>
@@ -94,30 +93,20 @@ export default {
     cartItemData: {
       handler: function (value) {
         // [1,2,3]
-        console.log("WATCH Chagnged", value);
+        console.log("WATCH Changed", value);
 
         bus.$emit("cartUpdated", value);
         //replacing entire array
       },
       immediate: true,
     },
-    // cartItemData(value) {
-    //   // [1,2,3]
-    //   console.log('WATCH Chagnged', value);
-
-    //   bus.$emit("cartUpdated", value);
-    //   //replacing entire array
-    // },
-    //shop totalprice
   },
 
   created() {
     this.setItemQuantity();
-    // this.calcProdPrice();
   },
 
   computed: {
-    // FIXME: calc cart total
     grandT() {
       let grandTotal = 0;
       this.items.forEach((item) => {
@@ -136,11 +125,10 @@ export default {
       alert(message);
     },
 
-    //-1 qty/ remove item, use cartItems
     deductOne(itemIndex, product) {
       this.cartItems[itemIndex].quantity -= 1;
 
-      //can use filter, splice,pop find index
+      //use filter, splice/pop find index
       const index = this.cartItemData.findIndex(
         (item) => item.id === product.id
       );
@@ -150,20 +138,8 @@ export default {
     addOne(itemIndex, product) {
       this.cartItems[itemIndex].quantity += 1;
       console.log.cartItemData + this.cartItems;
-      //changes made to cart items
-
-      // const index = this.cartItemData.findIndex(
-      //   (item) => item.id === idOfTheItemToBeAdd
-      //   //add product array of prod with same id
-      // );
 
       this.cartItemData.push(product);
-
-      //push to cartLineItem
-      // this.cartItems.push(this.cartItemData)
-      //without this., var must exist within scope
-      // this.cartLineItems.push(this.cartItems)
-      // console.log(this.cartLineItems);
     },
 
     setItemQuantity() {
@@ -190,11 +166,8 @@ export default {
       });
 
       this.cartItems = lineItems;
-
-      // emit to App.vue
-      // bus.$emit('cartUpdated', lineItems);
     },
-    // FIXME: calculate total for ea product in cart
+
     prodTotal() {
       let prodTotal = 0;
       // this.cartItems.forEach((product) => {
@@ -207,15 +180,7 @@ export default {
 
       // });
     },
-    getTotal() {
-      //   let total = 0;
-      //   this.cartItems.forEach((item) => {
-      //     total += item.price;
-      //   });
-      //   return total;
-      //good for doing sums
-      // return this.cartItems.reduce((total, item) => (total += item.price), 0); //starting value
-    },
+
     removeItem(product) {
       // manipulating cartitems directly
       // this.cartItems.splice(index, 1); OR
