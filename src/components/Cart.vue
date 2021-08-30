@@ -92,8 +92,6 @@ export default {
   watch: {
     cartItemData: {
       handler: function (value) {
-        // [1,2,3]
-        console.log("WATCH Changed", value);
 
         bus.$emit("cartUpdated", value);
         //replacing entire array

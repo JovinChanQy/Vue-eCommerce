@@ -15,7 +15,6 @@
           placeholder="Enter Product Name"
         />
         <label for="desc">Description</label>
-        <br />
         <textarea
           id="desc"
           v-model="form.desc"
@@ -86,7 +85,11 @@
               Edit
             </button>
           </td>
-          <td><button class="btnDelete" @click="del(index)">Delete</button></td>
+          <td>
+            <button class="btnDelete" @click="deleteProduct(product._id)">
+              Delete
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -129,7 +132,7 @@ export default {
   methods: {
     submitForm() {
       axios
-        .post("/product/add", this.form)
+        .post("/products/add", this.form)
         .then((response) => {
           this.getProducts();
         })
@@ -141,17 +144,13 @@ export default {
     getProducts() {
       axios
         .get("/products")
-        // axios({
-        //   method: "get",
-        //   url: "/products",
-        //   baseURL: "http://localhost:3001",
-        // })
         .then((response) => {
           this.products = response.data;
           this.initForm(response.data);
         });
     },
     initForm(products) {
+      this.form.length = 0;
       products.forEach((product) => {
         this.form.push({
           _id: product._id,
@@ -205,27 +204,31 @@ export default {
       })[0];
 
       axios
-        .patch("/products/" + productId , product)
+        .patch("/products/" + productId, product)
         .then((response) => {
           console.log(response.data);
         })
         .catch((error) => {
           console.error(error);
         });
-
-      // console.log("DATA SENT", productId, data);
     },
-  },
 
-  //delete record of selected row
-  delete(index) {
-    axios
-      .delete("/product/delete" + index)
-      // const delProd = this.product[index]
-      .then((response) => {
-        this.result.splice(index, 1);
-        console.log(this.response);
-      });
+    deleteProduct(productId) {
+      const product = this.form.filter((item) => {
+        return item._id === productId;
+      })[0];
+      axios
+        .delete("/products/" + productId)
+        .then((response) => {
+          
+          console.log('string',response.data);
+          this.getProducts();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+        
+    },
   },
 };
 </script>

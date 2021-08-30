@@ -100,17 +100,16 @@ app.patch('/products/:id', async function (request, response) {
 
 });
 
+app.delete('/products/:id', async function (request, response) {
 
-// FIXME prod to del
-app.delete('product/delete/:name', (request, response) => {
-
-    const { name } = req.params;
-
-    const productIndex = products.findIndex(p => p.id == id);
-
-    products.splice(productIndex, 1);
-
-    return res.send();
+    try {
+        //find selected prod id
+        const product = await Product.findByIdAndDelete(request.params.id);
+        
+        return response.status(200).json({ success: true, msg: 'Product Deleted' });
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 app.get('/', async (req, res) => {

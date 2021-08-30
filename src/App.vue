@@ -36,8 +36,6 @@ export default {
   created() {
     console.log(bus);
     bus.$on("cartUpdated", (data) => {
-      console.log('APP', data);
-
       this.cartLineItems = data;
     });
   },
