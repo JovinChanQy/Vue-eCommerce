@@ -77,7 +77,15 @@
               disabled
             />
           </td>
-          <td>{{ product.desc }}</td>
+          <!-- <td>{{ product.desc }}</td> -->
+          <td>
+            <input
+              v-model="product.desc"
+              type="text"
+              :id="`input-desc${product._id}`"
+              disabled
+            />
+            </td>
           <td>{{ product.price }}</td>
           <td>{{ product.promo }}</td>
           <td>
@@ -176,25 +184,33 @@ export default {
       event.target.innerText = this.toggleButtonText(buttonText);
 
       // get the element
-      const element = document.querySelector(`#input-${productId}`);
+      
+      const name = document.querySelector(`#input-${productId}`);
+      const desc = document.querySelector(`#input-desc${productId}`);
+
 
       // Check if element is disabled
-      const isLocked = element.disabled;
+      const isLocked = name && desc.disabled;
+      
 
       if (isLocked) {
-        element.removeAttribute("disabled");
+        name.removeAttribute("disabled");
+        desc.removeAttribute("disabled");
 
         // Fire to lock other elements
         this.setDisabledAttribute(productIds);
       } else {
-        element.setAttribute("disabled", "");
+        name.setAttribute("disabled", "");
+        desc.setAttribute("disabled", "");
         this.updateProduct(productId);
       }
     },
     setDisabledAttribute(productIds) {
       productIds.forEach((id) => {
-        const element = document.querySelector(`#input-${id}`);
-        element.setAttribute("disabled", "");
+      const name = document.querySelector(`#input-${id}`);
+      const desc = document.querySelector(`#input-desc${id}`);
+        name.setAttribute("disabled", "");
+        desc.setAttribute("disabled", "");
       });
     },
 
