@@ -46,7 +46,7 @@
             padding: 1rem;"
         >
           <div class="promo">*1 for 1 till 17 Aug</div>
-          <div class="price">Price: ${{ prodTotal() }}</div>
+          <div class="price">Price: ${{ prodTotal(cartItems) }}</div>
         </div>
       </div>
     </div>
@@ -74,8 +74,6 @@ export default {
   data() {
     return {
       products: [],
-      input_val: "",
-      // cartItems: this.cartLineItems,
       total: this.totalprice,
       cartItemData: this.cartLineItems, //from bus
       cartItems: [],
@@ -102,16 +100,6 @@ export default {
 
   created() {
     this.setItemQuantity();
-  },
-
-  computed: {
-    grandT() {
-      let grandTotal = 0;
-      this.items.forEach((item) => {
-        grandTotal += item.price * item.qty;
-      });
-      return total;
-    },
   },
 
   methods: {
@@ -166,17 +154,14 @@ export default {
       this.cartItems = lineItems;
     },
 
-    prodTotal() {
-      let prodTotal = 0;
-      // this.cartItems.forEach((product) => {
+    prodTotal(cartItems) {
+      let prodPrice = 0;
 
-      // console.log(
-      // this.prodPrice = price * quantity)
-      // // return;
-      // console.log(prodTotal += item.price );
-      // return this.cartItems.reduce((prodTotal, item) => (prodTotal += item.price), 0); //starting value
-
-      // });
+      cartItems.forEach((item) => {
+        prodPrice = item.product.price * item.quantity
+      });
+      console.log(this.product)
+      return prodPrice;
     },
 
     removeItem(product) {
