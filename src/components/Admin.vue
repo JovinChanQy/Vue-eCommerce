@@ -53,7 +53,7 @@
     <div class="search-container">
       <input type="text" placeholder="Search.." name="search" />
       <button type="submit">
-        <FontAwesomeIcon :icon="icon" class="icon-search" />
+        <FontAwesomeIcon :icon="iconSearch" class="icon-search" />
       </button>
     </div>
 
@@ -64,6 +64,7 @@
           <th>Description</th>
           <th>Price</th>
           <th>Promotion</th>
+          <th>Actions</th>
         </tr>
       </thead>
 
@@ -77,7 +78,6 @@
               disabled
             />
           </td>
-          <!-- <td>{{ product.desc }}</td> -->
           <td>
             <input
               v-model="product.desc"
@@ -85,17 +85,28 @@
               :id="`input-desc${product._id}`"
               disabled
             />
-            </td>
+          </td>
           <td>{{ product.price }}</td>
-          <td>{{ product.promo }}</td>
+          <td>
+            <select
+              v-model="product.promo"
+              type="multiple"
+              :id="`input-promo${product._id}`"
+              disabled
+            >
+              <option>None</option>
+              <option>20% Off</option>
+              <option>1 For 1</option>
+            </select>
+          </td>
           <td>
             <button class="btnUpdate" @click="toggleEdit($event, product._id)">
               Edit
             </button>
-          </td>
-          <td>
             <button class="btnDelete" @click="deleteProduct(product._id)">
               Delete
+              <FontAwesomeIcon :icon="iconTrash" class="icon-trash" />
+              <i class="fas fa-trash"></i>
             </button>
           </td>
         </tr>
@@ -111,6 +122,7 @@ axios.defaults.baseURL = "http://localhost:3001";
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons"; 
 
 export default {
   name: "Admin",
@@ -125,7 +137,8 @@ export default {
       products: [],
       errors: [],
       promoOptions: ["None", "20% Off", "1 For 1"],
-      icon: faSearch,
+      iconSearch: faSearch, 
+      iconTrash: faTrash,
       newName: this.nameChange,
     };
   },
@@ -150,12 +163,10 @@ export default {
     },
 
     getProducts() {
-      axios
-        .get("/products")
-        .then((response) => {
-          this.products = response.data;
-          this.initForm(response.data);
-        });
+      axios.get("/products").then((response) => {
+        this.products = response.data;
+        this.initForm(response.data);
+      });
     },
     initForm(products) {
       this.form.length = 0;
@@ -184,33 +195,36 @@ export default {
       event.target.innerText = this.toggleButtonText(buttonText);
 
       // get the element
-      
+
       const name = document.querySelector(`#input-${productId}`);
       const desc = document.querySelector(`#input-desc${productId}`);
-
+      const promo = document.querySelector(`#input-promo${productId}`);
 
       // Check if element is disabled
       const isLocked = name && desc.disabled;
-      
 
       if (isLocked) {
         name.removeAttribute("disabled");
         desc.removeAttribute("disabled");
+        promo.removeAttribute("disabled");
 
         // Fire to lock other elements
         this.setDisabledAttribute(productIds);
       } else {
         name.setAttribute("disabled", "");
         desc.setAttribute("disabled", "");
+        promo.setAttribute("disabled", "");
         this.updateProduct(productId);
       }
     },
     setDisabledAttribute(productIds) {
       productIds.forEach((id) => {
-      const name = document.querySelector(`#input-${id}`);
-      const desc = document.querySelector(`#input-desc${id}`);
+        const name = document.querySelector(`#input-${id}`);
+        const desc = document.querySelector(`#input-desc${id}`);
+        const promo = document.querySelector(`#input-promo${id}`);
         name.setAttribute("disabled", "");
         desc.setAttribute("disabled", "");
+        promo.setAttribute("disabled", "");
       });
     },
 
@@ -236,14 +250,12 @@ export default {
       axios
         .delete("/products/" + productId)
         .then((response) => {
-          
-          console.log('string',response.data);
+          console.log("string", response.data);
           this.getProducts();
         })
         .catch((error) => {
           console.error(error);
         });
-        
     },
   },
 };
@@ -271,6 +283,7 @@ select {
   border-radius: 8px;
   padding: 20px;
 }
+
 button {
   border: 2px solid thistle;
   height: 50px;
@@ -278,6 +291,7 @@ button {
   border-radius: 8px;
   padding: 20px;
 }
+
 button:hover {
   color: black;
   background-color: thistle;
@@ -287,57 +301,70 @@ button:hover {
 label {
   clear: right;
 }
+
 div {
-  border-radius: 5px;
+  /* border-radius: 5px;
   padding: 20px;
+  width: 75%;
+  margin: auto; */
 }
+
 .form {
-  width: 100%;
+  /* width: 50%; */
   display: flex;
+  margin: auto;
+  display: flex;
+  padding: 10px;
+}
+
+.search-container {
+  display: flex;
+  width: 100%;
+  max-width: 75rem;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  /* display: inline-block; */
+  /* width: auto; */
 }
 
 .search-container input[type="text"] {
-  width: 100px;
-  float: left;
+  /* float: left; */
+  /* margin: none; */
+  width: 100%;
+  max-width: 600px;
+
 }
-.search-container input[type="text"]:focus {
-  width: 60%;
-}
-.search-container {
-  display: inline-block;
-  width: 250px;
-}
+
 .search-container button {
-  float: right;
-  /* padding: 6px 10px; */
-  margin-top: 8px;
-  /* margin-right: 16px; */
-  background: #ddd url([../assets/searchicon.png]);
-  background-position: 8px 8px;
-  background-repeat: no-repeat;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
-}
-.icon-search {
   display: grid;
-  place-items: center;
+  justify-content: center;
+  align-content: center;
+  font-size: 1em;
+  width: 40px;
+  height: 40px;
+}
+
+.icon-search {
+  border:1px red dotted;  
 }
 
 .table {
-  margin: auto;
   display: flex;
   padding: 10px;
   background-color: #f2f2f2;
 }
 #list {
-  width: auto;
+  margin: auto;
+  max-width: 1000px;
+  min-width: 550px;
 }
 #list thead {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
-  background-color: #04aa6d;
+  text-align: center;
+  background-color: #ff8a6a;
 }
 
 #list td,
@@ -350,13 +377,25 @@ div {
   background-color: #f2f2f2;
 }
 
-#list tr:hover {
+/* #list tr:hover {
   background-color: #ddd;
+} */
+.btnUpdate {
+  margin: 10px;
+  border: none;
+  /* padding: 10px; */
 }
 
 .btnDelete {
-  margin-right: 10px;
+  margin: 10px;
   border: none;
+  background: #ddd url([../assets/trashicon.png]);
+}
+.icon-trash {
+  display: grid;
+  place-items: center;
+  padding: none;
+  float: right;
 }
 .btnDelete:hover {
   color: white;

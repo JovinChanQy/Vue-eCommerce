@@ -11,7 +11,8 @@
         <router-link
           :to="{ name: 'Cart', params: { cartLineItems } }"
           class="nav-item"
-          >Cart</router-link
+          >Cart
+        <FontAwesomeIcon :icon="icon" class="icon-search" /></router-link
         >
         <router-link to="admin" class="nav-item">Admin</router-link>
       </div>
@@ -23,6 +24,9 @@
 <script>
 /* eslint-disable */
 import { bus } from "./main";
+
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "App",
@@ -83,5 +87,8 @@ body {
   text-decoration: none;
   gap: 1em;
   padding: 10px;
+}
+.nav-item a {
+  background: #ddd url([../assets/carticon.png]);
 }
 </style>

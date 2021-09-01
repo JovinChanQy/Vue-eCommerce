@@ -38,6 +38,8 @@
 /*eslint-disable*/
 import { bus } from "@/main";
 import CartTotalPrice from "./CartTotalPrice.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "Shop",
@@ -194,15 +196,6 @@ export default {
 .item-action {
   margin-left: auto;
   /* width: 25%; */
-}
-
-.center {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.center td {
-  padding: 10px;
 }
 
 .btnAdd {

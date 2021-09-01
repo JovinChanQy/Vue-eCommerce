@@ -43,10 +43,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem;"
+            padding: 1rem;
+          "
         >
           <div class="promo">*1 for 1 till 17 Aug</div>
-          <div class="price">Price: ${{ prodTotal(cartItems) }}</div>
+          <div class="price">
+            Price: ${{ item.product.price * item.quantity }}
+          </div>
         </div>
       </div>
     </div>
@@ -90,7 +93,6 @@ export default {
   watch: {
     cartItemData: {
       handler: function (value) {
-
         bus.$emit("cartUpdated", value);
         //replacing entire array
       },
@@ -152,16 +154,6 @@ export default {
       });
 
       this.cartItems = lineItems;
-    },
-
-    prodTotal(cartItems) {
-      let prodPrice = 0;
-
-      cartItems.forEach((item) => {
-        prodPrice = item.product.price * item.quantity
-      });
-      console.log(this.product)
-      return prodPrice;
     },
 
     removeItem(product) {
@@ -268,8 +260,5 @@ img {
   color: black;
   background-color: thistle;
   padding: 20px;
-}
-.buttonRemove {
-  float: right;
 }
 </style>
