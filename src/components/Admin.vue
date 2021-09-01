@@ -2,9 +2,9 @@
   <div class="app">
     <h1>Admin</h1>
     <div class="content">
-      <div class="form-errors" v-show="errors.length > 0">
+      <div class= "form">
+      <!-- <div class="form-errors" v-show="errors.length > 0"> -->
         <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-      </div>
 
       <form method="POST" @submit.prevent="submit">
         <label for="name">Product Name</label>
@@ -46,6 +46,7 @@
 
         <button type="submit" @click="submitForm">Add Product</button>
       </form>
+      </div>
     </div>
 
     <hr />
@@ -311,10 +312,10 @@ div {
 
 .form {
   /* width: 50%; */
-  display: flex;
   margin: auto;
-  display: flex;
-  padding: 10px;
+  padding: 20px;
+  max-width: 800px;
+  min-width: 500px;
 }
 
 .search-container {
@@ -358,7 +359,7 @@ div {
 #list {
   margin: auto;
   max-width: 1000px;
-  min-width: 550px;
+  min-width: 600px;
 }
 #list thead {
   padding-top: 12px;

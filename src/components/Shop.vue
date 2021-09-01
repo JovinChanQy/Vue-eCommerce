@@ -78,6 +78,7 @@ export default {
       input_val: "",
       counter: 0,
       cartItems: this.cartLineItems,
+      icon: faCart,
     };
   },
 
