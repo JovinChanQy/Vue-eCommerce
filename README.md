@@ -1,5 +1,5 @@
-# example
-This is a simple Ecommerce site that has cart functionality and admins can perform simple CRUD actions to make changes to a MongoDB Atlas.
+# Basic Overview
+This is a simple Ecommerce site that has cart functionality and perform simple CRUD actions to make changes to a MongoDB Atlas.
 ## Installation
 You can install the packages in the terminal using:
 ```
@@ -17,7 +17,7 @@ npm run build
 ```
 The application runs on localhost:8080 while the backend runs on :3001.
 ## Database - MongoDB Atlas
-Change the uri with the admin credentials and details to connect to your own database and view it in 'Admin.vue'
+Change the uri with the admin credentials at index.js in the server folder to connect to your own database for viewing in 'Admin.vue'
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
